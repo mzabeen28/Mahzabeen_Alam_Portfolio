@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mahzabeen Alam – Portfolio</title>
+  <meta name="description" content="Mahzabeen Alam — final-year CS student. Backend services, REST APIs, agentic AI flows, and clean platform engineering." />
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            pinky: { 50:'#fff1f5',100:'#ffe4ed',200:'#fecddc',300:'#fba4c0',400:'#f472b6',500:'#ec4899',600:'#db2777',700:'#be185d' }
+          },
+          keyframes: {
+            floatOnce: { '0%':{transform:'translateY(-16px)',opacity:'0'}, '100%':{transform:'translateY(0)',opacity:'1'} },
+            fadeUpOnce:{ '0%':{transform:'translateY(12px)',opacity:'0'}, '100%':{transform:'translateY(0)',opacity:'1'} },
+            hoverRise: { '0%':{transform:'translateY(0)'}, '100%':{transform:'translateY(-4px)'} }
+          },
+          animation: {
+            floatOnce:'floatOnce 1s ease-out forwards',
+            fadeUpOnce:'fadeUpOnce 1s ease-out forwards',
+            hoverRise:'hoverRise .2s ease-out forwards'
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Lucide icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+  <!-- Preload your portrait for faster first paint -->
+  <link rel="preload" as="image" href="./mahzabeen.png" />
+  <style>
+    :root{
+      --bg:#ffffff; --muted:#f6f7f9; --border:#e5e7eb; --fg:#0f172a; --muted-fg:#64748b; --ring:#f472b6;
+    }
+    html{ scroll-behavior:smooth; }
+    body{ background:linear-gradient(to bottom,#ffffff,#fff1f5,#ffffff); color:var(--fg); }
+    .card{ border:1px solid var(--border); border-radius:1rem; background:#fff; box-shadow:0 1px 0 rgba(0,0,0,0.02); }
+    .card-header{ padding:1rem 1.25rem; border-bottom:1px solid var(--border); }
+    .card-title{ font-weight:600; }
+    .card-description{ color:var(--muted-fg); font-size:.875rem; margin-top:.25rem; }
+    .card-content{ padding:1rem 1.25rem; }
+    .card-footer{ padding:1rem 1.25rem; border-top:1px solid var(--border); }
+    .badge{ display:inline-flex; align-items:center; gap:.25rem; border-radius:.5rem; padding:.25rem .5rem; border:1px solid #fbcfe8; background:#ffe4ed; color:#9d174d; font-size:.75rem; }
+    .btn{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; border-radius:.75rem; padding:.5rem .9rem; font-weight:500; border:1px solid transparent; }
+    .btn-primary{ background:#ec4899; color:white; }
+    .btn-primary:hover{ background:#db2777; }
+    .btn-outline{ border-color:#fbcfe8; color:#be185d; }
+    .btn-outline:hover{ background:#fff1f5; }
+    .btn-ghost{ background:transparent; color:inherit; border:none; }
+    .btn:focus-visible, a:focus-visible, .tab-trigger:focus-visible{
+      outline:2px solid var(--ring); outline-offset:2px; border-radius:.5rem;
+    }
+    .input, .textarea, select{ border:1px solid var(--border); border-radius:.5rem; padding:.5rem .75rem; width:100%; background:#fff; }
+    .textarea{ min-height:8rem; }
+    pre{ background:var(--muted); border:1px solid var(--border); border-radius:.75rem; padding:1rem; overflow:auto; }
+    code{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:.85rem; }
+    .tab-trigger[aria-selected="true"]{ border-bottom:2px solid #ec4899; color:#be185d; }
+    .hover-img:hover img{ transform:scale(1.05); }
+    .toast{ position:fixed; inset-inline:0; bottom:24px; display:grid; place-items:center; pointer-events:none; }
+    .toast>div{ pointer-events:auto; background:#111827; color:#fff; border-radius:.75rem; padding:.5rem .75rem; box-shadow:0 10px 20px rgba(0,0,0,.2); font-size:.875rem; }
+    @media (prefers-reduced-motion: reduce){
+      *{ animation:none !important; transition:none !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+  <noscript><div class="bg-yellow-50 text-yellow-800 px-4 py-3 text-sm text-center">This site works best with JavaScript enabled.</div></noscript>
+
+  <!-- Top Nav -->
+  <header class="sticky top-0 z-50 backdrop-blur border-b bg-white/70" role="banner">
+    <nav class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between" aria-label="Primary">
+      <div class="flex items-center gap-2">
+        <i data-lucide="rocket" class="w-5 h-5 text-pinky-500" aria-hidden="true"></i>
+        <span class="font-semibold">Mahzabeen Alam</span>
+      </div>
+      <div class="hidden md:flex items-center gap-6 text-sm">
+        <a href="#about" class="hover:underline">About</a>
+        <a href="#projects" class="hover:underline">Projects</a>
+        <a href="#education" class="hover:underline">Education</a>
+        <a href="#experience" class="hover:underline">Experience</a>
+        <a href="#skills" class="hover:underline">Skills</a>
+        <a href="#contact" class="hover:underline">Contact</a>
+      </div>
+      <div class="flex items-center gap-2">
+        <a class="btn btn-ghost" aria-label="LinkedIn (opens in new tab)" href="https://www.linkedin.com/in/mzabeen28/" target="_blank" rel="noopener noreferrer"><i data-lucide="linkedin" class="w-4 h-4" aria-hidden="true"></i></a>
+        <a class="btn btn-ghost" aria-label="GitHub (opens in new tab)" href="https://github.com/mzabeen28" target="_blank" rel="noopener noreferrer"><i data-lucide="github" class="w-4 h-4" aria-hidden="true"></i></a>
+        <a class="hidden sm:inline-flex btn btn-outline" href="https://github.com/mzabeen28/ADS2425PortfolioAssignment" target="_blank" rel="noopener noreferrer">GitHub Portfolio</a>
+        <a href="#contact" class="hidden sm:inline-flex btn btn-primary">Hire Me</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO with Portrait (no cropping) -->
+  <main id="main" class="contents">
+    <section aria-labelledby="hero-title" class="relative overflow-hidden">
+      <div class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-64 w-[80vw] rounded-full bg-pinky-300/20 blur-3xl" aria-hidden="true"></div>
+
+      <div class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-8 md:pt-10">
+        <div class="grid items-center gap-10 md:grid-cols-5">
+          <!-- Portrait -->
+          <div class="md:col-span-2">
+            <div class="relative animate-floatOnce">
+              <div class="relative overflow-hidden rounded-2xl border shadow-sm bg-white">
+                <img
+                  src="./mahzabeen.png"
+                  alt="Portrait photograph of Mahzabeen Alam"
+                  loading="eager"
+                  fetchpriority="high"
+                  class="w-full h-auto object-contain opacity-100 !opacity-100 filter-none"
+                  style="max-height:520px; image-rendering:auto;"
+                />
+              </div>
+              <div class="pointer-events-none absolute -inset-6 rounded-[28px] bg-pinky-300/30 blur-3xl -z-10" aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <!-- Intro text -->
+          <div class="md:col-span-3">
+            <p class="text-xs tracking-widest uppercase text-slate-500 mb-3">Computer Science Final Year Undergrad</p>
+            <h1 id="hero-title" class="text-3xl md:text-4xl font-semibold tracking-tight mb-4 text-pinky-700 animate-fadeUpOnce">Mahzabeen Alam</h1>
+            <p class="text-lg text-slate-600 mb-6">
+              I build reliable backend services, design clean REST APIs, and prototype AI-driven flows for data migration and decisioning. I love turning ambiguous problems into shipped systems.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-6">
+              <span class="badge"><i data-lucide="cloud" class="w-3 h-3" aria-hidden="true"></i> AWS &amp; Azure</span>
+              <span class="badge"><i data-lucide="server" class="w-3 h-3" aria-hidden="true"></i> C# • Python</span>
+              <span class="badge"><i data-lucide="shield-check" class="w-3 h-3" aria-hidden="true"></i> Secure APIs</span>
+              <span class="badge"><i data-lucide="workflow" class="w-3 h-3" aria-hidden="true"></i> Agentic Flows</span>
+            </div>
+            <div class="flex gap-3">
+              <a href="#projects" class="btn btn-primary">View Projects</a>
+              <a href="#rest" class="btn btn-outline">REST Showcase</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Three tech images (kept) -->
+        <div class="mt-12 grid gap-4 md:grid-cols-3" aria-label="Technology imagery">
+          <div class="group relative overflow-hidden rounded-2xl shadow-sm border hover-img">
+            <img loading="lazy" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1200&auto=format&fit=crop" alt="Server racks" class="h-56 w-full object-cover transition-transform duration-500" />
+            <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-white/90 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+              <p class="text-sm text-slate-800">MCP server modules with observability &amp; circuit breakers</p>
+            </div>
+            <div class="pointer-events-none absolute -inset-10 rounded-[36px] bg-pinky-300/20 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
+          </div>
+          <div class="group relative overflow-hidden rounded-2xl shadow-sm border hover-img">
+            <img loading="lazy" src="https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?q=80&w=1200&auto=format&fit=crop" alt="Laptop and code pipeline" class="h-56 w-full object-cover transition-transform duration-500" />
+            <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-white/90 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+              <p class="text-sm text-slate-800">ETL &amp; data migration pipelines</p>
+            </div>
+            <div class="pointer-events-none absolute -inset-10 rounded-[36px] bg-pinky-300/20 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
+          </div>
+          <div class="group relative overflow-hidden rounded-2xl shadow-sm border hover-img">
+            <img loading="lazy" src="https://plus.unsplash.com/premium_photo-1683120968693-9af51578770e?ixlib=rb-4.1.0&auto=format&fit=crop&q=60&w=800" alt="Abstract AI art" class="h-56 w-full object-cover transition-transform duration-500" />
+            <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-white/90 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+              <p class="text-sm text-slate-800">LLMs &amp; agentic orchestration</p>
+            </div>
+            <div class="pointer-events-none absolute -inset-10 rounded-[36px] bg-pinky-300/20 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16" aria-labelledby="about-title">
+      <div class="mb-10">
+        <p class="text-xs tracking-widest uppercase text-slate-500">About</p>
+      </div>
+      <h2 id="about-title" class="text-3xl md:text-4xl font-semibold tracking-tight mb-6">Builder of dependable platforms</h2>
+      <div class="grid gap-6 md:grid-cols-3">
+        <article class="card md:col-span-2">
+          <div class="card-header">
+            <div class="card-title flex items-center gap-2"><i data-lucide="code" class="w-5 h-5" aria-hidden="true"></i> What I do</div>
+            <div class="card-description">From control-plane services to AI-augmented integration workflows.</div>
+          </div>
+          <div class="card-content space-y-4 text-sm leading-7">
+            <p>
+              I specialise in backend engineering with C# and Python, building modular services with clean contracts and strong observability. On the AI side, I prototype agentic flows (tool-use, planning, retries) to automate repetitive steps in data migration and reconciliation.
+            </p>
+            <p>
+              I’m comfortable across AWS/Azure, Docker, REST/JSON, and event-driven patterns. I care about tests, docs, and small PRs.
+            </p>
+          </div>
+        </article>
+        <aside class="card">
+          <div class="card-header">
+            <div class="card-title">Highlights</div>
+          </div>
+          <div class="card-content text-sm space-y-3">
+            <div class="flex items-start gap-3"><i data-lucide="server" class="h-4 w-4 mt-0.5 text-pinky-600"></i><span>Shipped an MCP-style control-plane demo with health, rate-limit, and rollout toggles.</span></div>
+            <div class="flex items-start gap-3"><i data-lucide="boxes" class="h-4 w-4 mt-0.5 text-pinky-600"></i><span>Built connectors to external KYC/Tax systems with robust error contracts.</span></div>
+            <div class="flex items-start gap-3"><i data-lucide="database" class="h-4 w-4 mt-0.5 text-pinky-600"></i><span>Automated ETL checksums &amp; schema drift alerts in a migration pipeline.</span></div>
+            <div class="flex items-start gap-3"><i data-lucide="workflow" class="h-4 w-4 mt-0.5 text-pinky-600"></i><span>Prototyped an agentic flow for document classification &amp; routing.</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16" aria-labelledby="projects-title">
+      <div class="mb-10">
+        <p class="text-xs tracking-widest uppercase text-slate-500">Projects</p>
+      </div>
+      <h2 id="projects-title" class="text-3xl md:text-4xl font-semibold tracking-tight mb-6">Selected Projects</h2>
+
+      <div class="grid gap-6 md:grid-cols-3">
+        <!-- Bookshop website -->
+        <article class="card group overflow-hidden">
+          <div class="card-header">
+            <div class="card-title flex items-center gap-2">
+              <i data-lucide="image" class="w-5 h-5" aria-hidden="true"></i>Bookshop Website (Web Dev)
+            </div>
+            <div class="card-description">HTML • CSS • JS • Cart &amp; Checkout</div>
+          </div>
+          <div class="card-content space-y-3 text-sm">
+            <p>Responsive catalogue with search/sort, cart persistence in <code>localStorage</code>, and a mock checkout flow. REST demo hits <code>/api/books</code> and <code>/api/cart</code>.</p>
+            <div class="relative">
+<pre><code>// Fetch books
+fetch('/api/books?search=algorithms').then(r=&gt;r.json())</code></pre>
+              <button class="btn btn-outline absolute top-2 right-2 text-xs" data-copy="// Fetch books
+fetch('/api/books?search=algorithms').then(r=>r.json())" aria-label="Copy snippet">Copy</button>
+            </div>
+          </div>
+          <div class="card-footer">
+            <a class="btn btn-ghost text-pinky-700" href="https://clinquant-faloodeh-891dc5.netlify.app/" target="_blank" rel="noopener noreferrer">
+              Bookshop Website <i data-lucide="link" class="w-4 h-4" aria-hidden="true"></i>
+            </a>
+          </div>
+          <div class="h-1 bg-pinky-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" aria-hidden="true"></div>
+        </article>
+
+        <!-- DS&A -->
+        <article class="card group overflow-hidden">
+          <div class="card-header">
+            <div class="card-title flex items-center gap-2">
+              <i data-lucide="boxes" class="w-5 h-5" aria-hidden="true"></i>Amusement Park Queue System (C#)
+            </div>
+            <div class="card-description">Queues • Circular buffers • Complexity</div>
+          </div>
+          <div class="card-content space-y-3 text-sm">
+            <p>Circular-buffer <code>GuestQueue</code> with <code>Enqueue</code>/<code>Dequeue</code>, <code>GetMostFunds()</code>, and first-<em>k</em> reversal. Optimised via modulo arithmetic.</p>
+            <div class="relative">
+<pre><code>// Pseudocode (C# style)
+while(count &lt; maxSize) { tail = (tail+1)%maxSize; }</code></pre>
+              <button class="btn btn-outline absolute top-2 right-2 text-xs" data-copy="// Pseudocode (C# style)
+while(count < maxSize) { tail = (tail+1)%maxSize; }" aria-label="Copy snippet">Copy</button>
+            </div>
+          </div>
+          <div class="card-footer">
+            <a class="btn btn-ghost text-pinky-700" href="https://github.com/mzabeen28/ADS2425PortfolioAssignment" target="_blank" rel="noopener noreferrer">
+              GitHub Portfolio <i data-lucide="link" class="w-4 h-4" aria-hidden="true"></i>
+            </a>
+          </div>
+          <div class="h-1 bg-pinky-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" aria-hidden="true"></div>
+        </article>
+
+        <!-- AI Coursework -->
+        <article class="card group overflow-hidden">
+          <div class="card-header">
+            <div class="card-title flex items-center gap-2">
+              <i data-lucide="database" class="w-5 h-5" aria-hidden="true"></i>Pneumonia Diagnosis (AI Coursework)
+            </div>
+            <div class="card-description">Supervised learning • Clinical decision support</div>
+          </div>
+          <div class="card-content space-y-3 text-sm">
+            <p>Train on measurement CSVs for rapid triage; evaluate a transition to raw-image classification.</p>
+            <div class="relative">
+<pre><code># Python sketch
+from sklearn.ensemble import RandomForestClassifier</code></pre>
+              <button class="btn btn-outline absolute top-2 right-2 text-xs" data-copy="# Python sketch
+from sklearn.ensemble import RandomForestClassifier" aria-label="Copy snippet">Copy</button>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-ghost text-pinky-700" disabled aria-disabled="true">Coming soon <i data-lucide="link" class="w-4 h-4" aria-hidden="true"></i></button>
+          </div>
+          <div class="h-1 bg-pinky-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" aria-hidden="true"></div>
+        </article>
+
+        <!-- Odd One Out -->
+        <article class="card group overflow-hidden">
+          <div class="card-header">
+            <div class="card-title flex items-center gap-2">
+              <i data-lucide="gamepad-2" class="w-5 h-5" aria-hidden="true"></i>Odd One Out (Thematic Project)
+            </div>
+            <div class="card-description">HTML • CSS • JS • Firebase Auth/Firestore</div>
+          </div>
+          <div class="card-content space-y-3 text-sm">
+            <p>Team-built browser game: pick the “odd” card under timed rounds. Firebase stores users, high scores, and session stats. Responsive UI and keyboard controls for accessibility.</p>
+            <div class="relative">
+<pre><code>// Save score (Firebase)
+import { addDoc, collection } from "firebase/firestore";
+await addDoc(collection(db, "scores"), { uid, score, ts: Date.now() });</code></pre>
+              <button class="btn btn-outline absolute top-2 right-2 text-xs" data-copy='// Save score (Firebase)
+import { addDoc, collection } from "firebase/firestore";
+await addDoc(collection(db, "scores"), { uid, score, ts: Date.now() });' aria-label="Copy snippet">Copy</button>
+            </div>
+          </div>
+          <div class="card-footer">
+            <a class="btn btn-ghost text-pinky-700" href="https://oddoneoutgame-22570.firebaseapp.com/" target="_blank" rel="noopener noreferrer">
+              Odd One Out Game <i data-lucide="link" class="w-4 h-4" aria-hidden="true"></i>
+            </a>
+          </div>
+          <div class="h-1 bg-pinky-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" aria-hidden="true"></div>
+        </article>
+
+        <!-- Password Generator -->
+        <article class="card group overflow-hidden">
+          <div class="card-header">
+            <div class="card-title flex items-center gap-2">
+              <i data-lucide="key-round" class="w-5 h-5" aria-hidden="true"></i>Password Generator (Team Project)
+            </div>
+            <div class="card-description">Full-stack • HTML • CSS • JS</div>
+          </div>
+          <div class="card-content space-y-3 text-sm">
+            <p>Secure password generator with strength meter, copy-to-clipboard, and optional server-side logging for analytics. Input validations and entropy hints guide non-technical users.</p>
+            <div class="relative">
+<pre><code>// Generate password
+const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+const rand = (n)=>Array.from(crypto.getRandomValues(new Uint32Array(n)), x=>chars[x%chars.length]).join("");</code></pre>
+              <button class="btn btn-outline absolute top-2 right-2 text-xs" data-copy='// Generate password
+const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+const rand = (n)=>Array.from(crypto.getRandomValues(new Uint32Array(n)), x=>chars[x%chars.length]).join("");' aria-label="Copy snippet">Copy</button>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-ghost text-pinky-700" disabled aria-disabled="true">Demo link soon <i data-lucide="link" class="w-4 h-4" aria-hidden="true"></i></button>
+          </div>
+          <div class="h-1 bg-pinky-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" aria-hidden="true"></div>
+        </article>
+
+        <!-- Durham ISC Extended Project -->
+        <article class="card group overflow-hidden">
+          <div class="card-header">
+            <div class="card-title flex items-center gap-2">
+              <i data-lucide="search" class="w-5 h-5" aria-hidden="true"></i>Extended Project: Binary vs Linear Search
+            </div>
+            <div class="card-description">Durham University ISC • Algorithms</div>
+          </div>
+          <div class="card-content space-y-3 text-sm">
+            <p>Analysed time/space trade-offs on random lists; demonstrated O(<em>log n</em>) vs O(<em>n</em>) behaviour with empirical timings and plotted break-even points across input sizes.</p>
+            <div class="relative">
+<pre><code>// Binary search (JS)
+function bsearch(a, x){
+  let lo=0, hi=a.length-1;
+  while(lo<=hi){
+    const mid=(lo+hi)&gt;&gt;1;
+    if(a[mid]===x) return mid;
+    if(a[mid]&lt;x) lo=mid+1; else hi=mid-1;
+  }
+  return -1;
+}</code></pre>
+              <button class="btn btn-outline absolute top-2 right-2 text-xs" data-copy='// Binary search (JS)
+function bsearch(a, x){
+  let lo=0, hi=a.length-1;
+  while(lo<=hi){
+    const mid=(lo+hi)>>1;
+    if(a[mid]===x) return mid;
+    if(a[mid]<x) lo=mid+1; else hi=mid-1;
+  }
+  return -1;
+}' aria-label="Copy snippet">Copy</button>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-ghost text-pinky-700" disabled aria-disabled="true">Report PDF soon <i data-lucide="link" class="w-4 h-4" aria-hidden="true"></i></button>
+          </div>
+          <div class="h-1 bg-pinky-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" aria-hidden="true"></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section id="education" class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16" aria-labelledby="education-title">
+      <div class="mb-10">
+        <p class="text-xs tracking-widest uppercase text-slate-500">Education</p>
+      </div>
+      <h2 id="education-title" class="text-3xl md:text-4xl font-semibold tracking-tight mb-6">Academic journey</h2>
+      <div class="grid gap-6 md:grid-cols-2">
+        <article class="card">
+          <div class="card-header">
+            <div class="card-title">BSc (Hons) Computer Science</div>
+            <div class="card-description">Manchester Metropolitan University — Final Year</div>
+          </div>
+          <div class="card-content text-sm space-y-2">
+            <p>Modules include Data Structures &amp; Algorithms, Operating Systems, Networks, Industry &amp; Community Engagement, and AI topics. Peer Guide, Careers Associate, Lab Demonstrator.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-header">
+            <div class="card-title">Foundation Year (Computing/Engineering)</div>
+            <div class="card-description">Durham University (ISC) — High Distinctions</div>
+          </div>
+          <div class="card-content text-sm space-y-2">
+            <p>Awards for excellence in Maths and English; active in tech &amp; retail-oriented societies and student ambassador work.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-header">
+            <div class="card-title">Higher Secondary Certificate (HSC)</div>
+            <div class="card-description">Dhaka City College — GPA 5.00</div>
+          </div>
+          <div class="card-content text-sm space-y-2">
+            <p>A+ in English, Maths, Biology, Physics, Chemistry; led events involving inventory, cash-handling, and customer-style coordination.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-header">
+            <div class="card-title">Secondary School Certificate (SSC)</div>
+            <div class="card-description">Mohammadpur Preparatory School — GPA 5.00</div>
+          </div>
+          <div class="card-content text-sm space-y-2">
+            <p>98% overall; early projects in problem solving, teamwork, and service-desk style communication at school events.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16" aria-labelledby="experience-title">
+      <div class="mb-10">
+        <p class="text-xs tracking-widest uppercase text-slate-500">Experience</p>
+      </div>
+      <h2 id="experience-title" class="text-3xl md:text-4xl font-semibold tracking-tight mb-6">Hands-on roles</h2>
+      <div class="grid gap-6 md:grid-cols-2">
+        <article class="card">
+          <div class="card-header">
+            <div class="card-title flex items-center gap-2"><i data-lucide="shopping-bag" class="w-5 h-5" aria-hidden="true"></i> Community Grocer Project Coordinator</div>
+            <div class="card-description">Healthy Me Healthy Communities (Gorton Central)</div>
+          </div>
+          <div class="card-content text-sm space-y-2">
+            <p>Manage weekly grocery operations with ~10 volunteers: stock rotation, labeling tiers, spreadsheets, cash handling, and member experience. Implemented smoother onboarding and data tracking to reduce queue times and errors.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-header">
+            <div class="card-title flex items-center gap-2"><i data-lucide="users" class="w-5 h-5" aria-hidden="true"></i> Peer Guide / Student Engagement</div>
+            <div class="card-description">Manchester Metropolitan University</div>
+          </div>
+          <div class="card-content text-sm space-y-2">
+            <p>Proactive outreach to students about attendance and support services; triaged queries, documented actions, and signposted resources. Built empathetic, clear communication skills relevant to retail &amp; service roles.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-header">
+            <div class="card-title flex items-center gap-2"><i data-lucide="headset" class="w-5 h-5" aria-hidden="true"></i> Enrolment Helpline Advisor</div>
+            <div class="card-description">Manchester Metropolitan University</div>
+          </div>
+          <div class="card-content text-sm space-y-2">
+            <p>Handled high-volume calls and tickets via SharePoint/Jabber/FreshService. Verified identity, resolved first-line issues, escalated where needed. Consistently met accuracy and professionalism standards during peak periods.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-header">
+            <div class="card-title flex items-center gap-2"><i data-lucide="building-2" class="w-5 h-5" aria-hidden="true"></i> Digital Support &amp; Teaching Internships</div>
+            <div class="card-description">Co-Op Academy Failsworth • Chorlton High • Resolve UK</div>
+          </div>
+          <div class="card-content text-sm space-y-2">
+            <p>Delivered sessions, built lightweight web tools, and evaluated CRM options (e.g., Zoho CRM). Developed safeguarding awareness and inclusive communication.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- REST API Showcase -->
+    <section id="rest" class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16" aria-labelledby="rest-title">
+      <div class="mb-10">
+        <p class="text-xs tracking-widest uppercase text-slate-500">REST</p>
+      </div>
+      <h2 id="rest-title" class="text-3xl md:text-4xl font-semibold tracking-tight mb-6">Production-grade REST: design, docs, and testing</h2>
+      <div class="grid gap-6 md:grid-cols-2">
+        <!-- REST Console -->
+        <section class="card border" id="rest-console" aria-labelledby="rest-console-title">
+          <div class="card-header">
+            <div id="rest-console-title" class="card-title flex items-center gap-2"><i data-lucide="server" class="w-5 h-5" aria-hidden="true"></i> Live REST API Showcase (Mocked)</div>
+            <div class="card-description">Demonstrates endpoint design, auth headers, and JSON request/response handling. (Works offline.)</div>
+          </div>
+          <div class="card-content space-y-4">
+            <div class="grid gap-3 md:grid-cols-3">
+              <div class="flex gap-2">
+                <label for="rc-method" class="sr-only">HTTP Method</label>
+                <select id="rc-method" class="w-28 rounded-md border bg-white px-3 py-2 text-sm" aria-label="HTTP method">
+                  <option>GET</option>
+                  <option>POST</option>
+                  <option>PATCH</option>
+                </select>
+                <label for="rc-url" class="sr-only">Request URL</label>
+                <input id="rc-url" class="input" value="/api/tasks" placeholder="/api/tasks" aria-label="Request path" />
+              </div>
+              <input class="input" placeholder="Authorization: Bearer &lt;token&gt;" aria-label="Authorization header" />
+              <div class="flex items-center gap-2">
+                <button id="rc-send" class="btn btn-primary">Send Request</button>
+                <span class="badge" aria-live="polite">Status: <span id="rc-status">—</span></span>
+              </div>
+            </div>
+            <div id="rc-body-wrap" class="hidden">
+              <label for="rc-body" class="sr-only">Request Body</label>
+              <textarea id="rc-body" class="textarea font-mono text-xs" aria-label="Request JSON body">{ "title": "Backfill missing FATCA records" }</textarea>
+            </div>
+            <div>
+              <div role="tablist" aria-label="REST console tabs" class="flex gap-4 border-b">
+                <button class="py-2 tab-trigger" data-tab="response" aria-selected="true" role="tab" aria-controls="tab-response">Response</button>
+                <button class="py-2 tab-trigger" data-tab="curl" role="tab" aria-controls="tab-curl">cURL</button>
+                <button class="py-2 tab-trigger" data-tab="docs" role="tab" aria-controls="tab-docs">Docs</button>
+              </div>
+              <div class="pt-3" id="tab-response" role="tabpanel" aria-labelledby="Response">
+<pre id="rc-response" class="min-h-[120px]"><code>{
+  "hint": "Hit Send Request to see the JSON response"
+}</code></pre>
+              </div>
+              <div class="pt-3 hidden" id="tab-curl" role="tabpanel" aria-labelledby="cURL">
+                <div class="relative">
+                  <pre><code id="rc-curl"></code></pre>
+                  <button class="btn btn-outline absolute top-2 right-2 text-xs" id="copy-curl" aria-label="Copy cURL">Copy</button>
+                </div>
+              </div>
+              <div class="pt-3 hidden text-sm leading-7" id="tab-docs" role="tabpanel" aria-labelledby="Docs">
+                <ul class="list-disc pl-5">
+                  <li><code>GET /api/tasks</code> → 200 OK, returns array of tasks.</li>
+                  <li><code>POST /api/tasks</code> → 201 Created, body: <code>{ title: string }</code>.</li>
+                  <li><code>PATCH /api/tasks/:id</code> → 200 OK, body: <code>{ title?: string, status?: string }</code>.</li>
+                  <li>Auth: <code>Authorization: Bearer &lt;token&gt;</code>.</li>
+                  <li>Errors: 4xx structured as <code>{ error: string, code?: string }</code>.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- API Design card -->
+        <aside class="card">
+          <div class="card-header">
+            <div class="card-title">API Design Principles</div>
+            <div class="card-description">Clear contracts, predictable errors, excellent DX.</div>
+          </div>
+          <div class="card-content text-sm space-y-4">
+            <ul class="list-disc pl-5 space-y-2">
+              <li>Resource-oriented URIs, nouns not verbs. Versioning via <code>/v1</code> or media-types.</li>
+              <li>Pagination &amp; filtering: <code>?limit=50&amp;cursor=…</code>.</li>
+              <li>Idempotency for POST; retries with backoff.</li>
+              <li>Consistent error envelope and correlation IDs.</li>
+              <li>OpenAPI-driven docs, generators for C# and Python clients.</li>
+            </ul>
+            <hr class="border-t"/>
+            <p class="font-medium">Client example (C# HttpClient):</p>
+            <div class="relative">
+<pre><code>// C# (HttpClient)
+var client = new HttpClient();
+client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+var res = await client.GetAsync("https://api.example.com/tasks");
+res.EnsureSuccessStatusCode();
+var json = await res.Content.ReadAsStringAsync();</code></pre>
+              <button class="btn btn-outline absolute top-2 right-2 text-xs" data-copy='// C# (HttpClient)
+var client = new HttpClient();
+client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+var res = await client.GetAsync("https://api.example.com/tasks");
+res.EnsureSuccessStatusCode();
+var json = await res.Content.ReadAsStringAsync();' aria-label="Copy snippet">Copy</button>
+            </div>
+            <p class="font-medium">Client example (Python requests):</p>
+            <div class="relative">
+<pre><code>import requests
+headers = {"Authorization": f"Bearer {token}"}
+r = requests.post("https://api.example.com/tasks", json={"title": "Migrate batch #42"}, headers=headers)
+r.raise_for_status()
+print(r.json())</code></pre>
+              <button class="btn btn-outline absolute top-2 right-2 text-xs" data-copy='import requests
+headers = {"Authorization": f"Bearer {token}"}
+r = requests.post("https://api.example.com/tasks", json={"title": "Migrate batch #42"}, headers=headers)
+r.raise_for_status()
+print(r.json())' aria-label="Copy snippet">Copy</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Tests -->
+    <section id="tests" class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16" aria-labelledby="tests-title">
+      <div class="mb-10">
+        <p class="text-xs tracking-widest uppercase text-slate-500">Tests</p>
+      </div>
+      <h2 id="tests-title" class="text-3xl md:text-4xl font-semibold tracking-tight mb-6">Built-in API test cases</h2>
+      <div class="grid gap-6 md:grid-cols-1">
+        <div class="card" id="test-suite">
+          <div class="card-header">
+            <div class="card-title flex items-center gap-2">API Test Cases</div>
+            <div class="card-description">Lightweight checks for the mock REST layer.</div>
+          </div>
+          <div class="card-content space-y-2 text-sm" id="test-results">
+            <p class="text-slate-500">Running tests…</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16" aria-labelledby="skills-title">
+      <div class="mb-10">
+        <p class="text-xs tracking-widest uppercase text-slate-500">Skills</p>
+      </div>
+      <h2 id="skills-title" class="text-3xl md:text-4xl font-semibold tracking-tight mb-6">Stack &amp; expertise</h2>
+      <div class="grid gap-4 md:grid-cols-4">
+        <div class="card hover:animate-hoverRise"><div class="card-header"><div class="card-title text-base">Languages</div></div><div class="card-content text-sm text-slate-600">C#, Python, TypeScript</div></div>
+        <div class="card hover:animate-hoverRise"><div class="card-header"><div class="card-title text-base">Cloud</div></div><div class="card-content text-sm text-slate-600">AWS (Lambda, S3, ECS), Azure (Functions, App Service)</div></div>
+        <div class="card hover:animate-hoverRise"><div class="card-header"><div class="card-title text-base">Containers</div></div><div class="card-content text-sm text-slate-600">Docker, Compose</div></div>
+        <div class="card hover:animate-hoverRise"><div class="card-header"><div class="card-title text-base">Data</div></div><div class="card-content text-sm text-slate-600">PostgreSQL, SQL Server, Kafka (basics)</div></div>
+        <div class="card hover:animate-hoverRise"><div class="card-header"><div class="card-title text-base">APIs</div></div><div class="card-content text-sm text-slate-600">REST, OpenAPI/Swagger, OAuth2, Webhooks</div></div>
+        <div class="card hover:animate-hoverRise"><div class="card-header"><div class="card-title text-base">Testing</div></div><div class="card-content text-sm text-slate-600">xUnit, pytest, Postman, k6 (basics)</div></div>
+        <div class="card hover:animate-hoverRise"><div class="card-header"><div class="card-title text-base">Observability</div></div><div class="card-content text-sm text-slate-600">OpenTelemetry, Grafana, metrics/traces</div></div>
+        <div class="card hover:animate-hoverRise"><div class="card-header"><div class="card-title text-base">AI</div></div><div class="card-content text-sm text-slate-600">LLMs, embeddings, agentic flows (prototype)</div></div>
+        <div class="card hover:animate-hoverRise md:col-span-2"><div class="card-header"><div class="card-title text-base">Soft Skills</div></div><div class="card-content text-sm text-slate-600">Customer service, de-escalation, teamwork, leadership, inclusive communication, time management, documentation.</div></div>
+        <div class="card hover:animate-hoverRise md:col-span-2"><div class="card-header"><div class="card-title text-base">Tools</div></div><div class="card-content text-sm text-slate-600">Git, GitHub, Postman, Excel/Sheets, SharePoint, FreshService, Grafana.</div></div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16" aria-labelledby="contact-title">
+      <div class="mb-10">
+        <p class="text-xs tracking-widest uppercase text-slate-500">Contact</p>
+      </div>
+      <h2 id="contact-title" class="text-3xl md:text-4xl font-semibold tracking-tight mb-6">Let’s build something reliable</h2>
+      <div class="grid gap-6 md:grid-cols-2">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Contact</div>
+            <div class="card-description">Based in Manchester, UK. Open to hybrid/remote.</div>
+          </div>
+          <div class="card-content space-y-3 text-sm">
+            <div class="flex items-center gap-2"><i data-lucide="mail" class="w-4 h-4" aria-hidden="true"></i> <a href="mailto:mahzabeenalam9@gmail.com" class="underline-offset-2 hover:underline">mahzabeenalam9@gmail.com</a></div>
+            <a href="https://www.linkedin.com/in/mzabeen28/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2"><i data-lucide="linkedin" class="w-4 h-4" aria-hidden="true"></i> linkedin.com/in/mzabeen28</a>
+            <a href="https://github.com/mzabeen28" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2"><i data-lucide="github" class="w-4 h-4" aria-hidden="true"></i> github.com/mzabeen28</a>
+          </div>
+        </div>
+        <form class="card" aria-label="Quick contact form" onsubmit="event.preventDefault(); showToast('Thanks! I’ll reply soon.'); this.reset();">
+          <div class="card-header">
+            <div class="card-title">Quick note</div>
+            <div class="card-description">Tell me about your project</div>
+          </div>
+          <div class="card-content space-y-3">
+            <label class="sr-only" for="q-email">Your email</label>
+            <input id="q-email" type="email" class="input" placeholder="Your email" required/>
+            <label class="sr-only" for="q-msg">Message</label>
+            <textarea id="q-msg" class="textarea" rows="5" placeholder="What do you want to build?" required></textarea>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-primary" type="submit">Send</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t" role="contentinfo">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 text-sm text-slate-600 flex items-center justify-between">
+      <p>© <span id="year"></span> Mahzabeen Alam. All rights reserved.</p>
+      <div class="flex items-center gap-4">
+        <a class="hover:underline" href="#">Privacy</a>
+        <a class="hover:underline" href="#rest">OpenAPI</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast container -->
+  <div class="toast" id="toast" style="display:none"><div id="toast-msg" role="status" aria-live="polite"></div></div>
+
+  <script>
+    // Run after DOM is ready
+    (function onReady(fn){ if(document.readyState !== 'loading') fn(); else document.addEventListener('DOMContentLoaded', fn); })(function(){
+      if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
+    });
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Lightweight toast
+    function showToast(msg){
+      const t = document.getElementById('toast');
+      const m = document.getElementById('toast-msg');
+      m.textContent = msg;
+      t.style.display = 'grid';
+      clearTimeout(showToast._tid);
+      showToast._tid = setTimeout(()=>{ t.style.display='none'; }, 1600);
+    }
+
+    // Robust clipboard helper
+    async function safeCopy(text){
+      try{
+        if(window.isSecureContext && navigator.clipboard && typeof navigator.clipboard.writeText === 'function'){
+          try{
+            await navigator.clipboard.writeText(text);
+            return { ok: true, method: 'clipboard' };
+          }catch(e){}
+        }
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.setAttribute('readonly','');
+        ta.style.position='fixed'; ta.style.opacity='0'; ta.style.inset='0 auto auto 0';
+        document.body.appendChild(ta); ta.select();
+        let ok = false; try { ok = document.execCommand('copy'); } catch(_) { ok = false; }
+        document.body.removeChild(ta);
+        return { ok, method: 'textarea' };
+      }catch(err){
+        return { ok:false, method:'none', error: err && (err.message || String(err)) };
+      }
+    }
+
+    // Wire [data-copy]
+    document.querySelectorAll('[data-copy]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.getAttribute('data-copy') || '';
+        const res = await safeCopy(text);
+        showToast(res.ok ? 'Copied to clipboard' : 'Copy failed');
+      });
+    });
+
+    // Tabs
+    const tabButtons = document.querySelectorAll('.tab-trigger');
+    tabButtons.forEach(btn => btn.addEventListener('click', () => {
+      const name = btn.getAttribute('data-tab');
+      tabButtons.forEach(b => b.setAttribute('aria-selected', 'false'));
+      btn.setAttribute('aria-selected', 'true');
+      ['response','curl','docs'].forEach(id => {
+        const el = document.getElementById('tab-' + id);
+        if(!el) return; el.classList.toggle('hidden', id !== name);
+      });
+    }));
+
+    // Mock REST layer
+    const MOCK_DB = { tasks: [
+      { id: 't-1001', title: 'Design MCP server module', status: 'in_progress' },
+      { id: 't-1002', title: 'ETL pipeline for KYC data', status: 'queued' },
+    ]};
+
+    function simulateFetch({ url, method, body }){
+      return new Promise(resolve => {
+        setTimeout(() => {
+          try{
+            if(url === '/api/tasks' && method === 'GET'){
+              resolve({ status: 200, json: MOCK_DB.tasks });
+            } else if(url === '/api/tasks' && method === 'POST'){
+              const obj = JSON.parse(body || '{}');
+              const newTask = { id: `t-${Date.now()}`, title: obj.title ?? 'Untitled', status: 'queued' };
+              MOCK_DB.tasks.push(newTask);
+              resolve({ status: 201, json: newTask });
+            } else if(url.startsWith('/api/tasks/') && method === 'PATCH'){
+              const id = url.split('/').pop();
+              const obj = JSON.parse(body || '{}');
+              const idx = MOCK_DB.tasks.findIndex(t => t.id === id);
+              if(idx === -1) return resolve({ status: 404, json: { error: 'Not Found' } });
+              MOCK_DB.tasks[idx] = { ...MOCK_DB.tasks[idx], ...obj };
+              resolve({ status: 200, json: MOCK_DB.tasks[idx] });
+            } else {
+              resolve({ status: 400, json: { error: 'Route not implemented in mock' } });
+            }
+          }catch(e){
+            resolve({ status: 400, json: { error: 'Bad Request' } });
+          }
+        }, 250);
+      });
+    }
+
+    // REST Console wiring
+    const rcMethod = document.getElementById('rc-method');
+    const rcUrl = document.getElementById('rc-url');
+    const rcBody = document.getElementById('rc-body');
+    const rcBodyWrap = document.getElementById('rc-body-wrap');
+    const rcStatus = document.getElementById('rc-status');
+    const rcResp = document.getElementById('rc-response');
+    const rcSend = document.getElementById('rc-send');
+    const rcCurl = document.getElementById('rc-curl');
+    const copyCurlBtn = document.getElementById('copy-curl');
+
+    function updateCurl(){
+      const method = rcMethod.value;
+      const url = rcUrl.value || '/api/tasks';
+      const body = (rcBody.value || '').replace(/\n/g, ' ');
+      const base = 'https://api.example.com';
+      const curl = method === 'GET'
+        ? `curl -X GET ${base}${url} \\\n  -H 'Authorization: Bearer <token>'`
+        : `curl -X ${method} ${base}${url} \\\n  -H 'Authorization: Bearer <token>' \\\n  -H 'Content-Type: application/json' \\\n  -d '${body}'`;
+      rcCurl.textContent = curl;
+    }
+
+    rcMethod.addEventListener('change', () => {
+      rcBodyWrap.classList.toggle('hidden', rcMethod.value === 'GET');
+      updateCurl();
+    });
+    rcUrl.addEventListener('input', updateCurl);
+    rcBody.addEventListener('input', updateCurl);
+    copyCurlBtn.addEventListener('click', async () => {
+      const res = await safeCopy(rcCurl.textContent || '');
+      showToast(res.ok ? 'Copied to clipboard' : 'Copy failed');
+    });
+
+    rcSend.addEventListener('click', async () => {
+      rcSend.disabled = true; rcSend.textContent = 'Running…';
+      const method = rcMethod.value;
+      const path = rcUrl.value || '/api/tasks';
+      const res = await simulateFetch({ url: path, method, body: method === 'GET' ? undefined : rcBody.value });
+      rcStatus.textContent = res.status;
+      rcResp.textContent = JSON.stringify(res.json, null, 2);
+      rcSend.disabled = false; rcSend.textContent = 'Send Request';
+    });
+
+    updateCurl();
+
+    // Tests
+    const tests = [
+      {
+        name: 'GET /api/tasks returns initial list',
+        run: async () => {
+          const res = await simulateFetch({ url: '/api/tasks', method: 'GET' });
+          if(res.status !== 200) throw new Error(`Expected 200, got ${res.status}`);
+          if(!Array.isArray(res.json) || res.json.length < 2) throw new Error('Expected at least 2 tasks');
+        },
+      },
+      {
+        name: 'POST /api/tasks creates a task',
+        run: async () => {
+          const before = (await simulateFetch({ url: '/api/tasks', method: 'GET' })).json.length;
+          const res = await simulateFetch({ url: '/api/tasks', method: 'POST', body: JSON.stringify({ title: 'Backfill' }) });
+          if(res.status !== 201) throw new Error(`Expected 201, got ${res.status}`);
+          const after = (await simulateFetch({ url: '/api/tasks', method: 'GET' })).json.length;
+          if(after !== before + 1) throw new Error('Task count did not increment');
+        },
+      },
+      {
+        name: 'PATCH /api/tasks/:id updates status',
+        run: async () => {
+          const list = (await simulateFetch({ url: '/api/tasks', method: 'GET' })).json;
+          const id = list[0].id;
+          const res = await simulateFetch({ url: `/api/tasks/${id}`, method: 'PATCH', body: JSON.stringify({ status: 'done' }) });
+          if(res.status !== 200) throw new Error(`Expected 200, got ${res.status}`);
+          if(res.json.status !== 'done') throw new Error('Status not updated');
+        },
+      },
+      {
+        name: 'PATCH unknown id returns 404',
+        run: async () => {
+          const res = await simulateFetch({ url: '/api/tasks/does-not-exist', method: 'PATCH', body: JSON.stringify({ status: 'done' }) });
+          if(res.status !== 404) throw new Error(`Expected 404, got ${res.status}`);
+        },
+      },
+      {
+        name: 'Unknown route returns 400',
+        run: async () => {
+          const res = await simulateFetch({ url: '/api/unknown', method: 'GET' });
+          if(res.status !== 400) throw new Error(`Expected 400, got ${res.status}`);
+        },
+      },
+      {
+        name: 'POST /api/tasks with empty object still creates',
+        run: async () => {
+          const res = await simulateFetch({ url: '/api/tasks', method: 'POST', body: '{}' });
+          if(res.status !== 201) throw new Error('Expected creation with empty object');
+          if(!res.json.id) throw new Error('New task should have an id');
+        },
+      },
+      {
+        name: 'safeCopy returns structured result',
+        run: async () => {
+          const res = await safeCopy('hello');
+          if(typeof res !== 'object' || typeof res.ok !== 'boolean' || !('method' in res)){
+            throw new Error('safeCopy should resolve to an object with ok & method');
+          }
+        },
+      },
+      {
+        name: 'safeCopy fallback path attempt',
+        run: async () => {
+          // Try to simulate non-secure context safely; if not possible, just assert API shape.
+          let outcome;
+          try{
+            const desc = Object.getOwnPropertyDescriptor(window, 'isSecureContext');
+            if(desc && desc.configurable){
+              Object.defineProperty(window, 'isSecureContext', { value: false, configurable: true });
+              outcome = await safeCopy('x');
+              Object.defineProperty(window, 'isSecureContext', desc);
+            } else {
+              outcome = await safeCopy('x'); // best-effort
+            }
+          }catch(_){
+            outcome = await safeCopy('x'); // fallback
+          }
+          if(typeof outcome.ok !== 'boolean') throw new Error('safeCopy should return ok boolean');
+        },
+      },
+    ];
+
+    (async function runTests(){
+      const container = document.getElementById('test-results');
+      container.innerHTML = '';
+      for(const t of tests){
+        const row = document.createElement('div');
+        row.className = 'flex items-start gap-2';
+        const iconWrap = document.createElement('span');
+        iconWrap.innerHTML = '<svg class="h-4 w-4 text-slate-400" viewBox="0 0 24 24" aria-hidden="true"></svg>';
+        const textWrap = document.createElement('div');
+        const title = document.createElement('p');
+        title.className = 'font-medium';
+        title.textContent = t.name;
+        const msg = document.createElement('p');
+        msg.className = 'text-red-600 text-sm';
+        try{
+          await t.run();
+          iconWrap.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+        }catch(e){
+          iconWrap.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+          msg.textContent = e.message || String(e);
+        }
+        textWrap.appendChild(title);
+        if(msg.textContent) textWrap.appendChild(msg);
+        row.appendChild(iconWrap);
+        row.appendChild(textWrap);
+        container.appendChild(row);
+      }
+    })();
+  </script>
+</body>
+</html>
