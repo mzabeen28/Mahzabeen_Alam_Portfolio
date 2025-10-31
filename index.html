@@ -38,14 +38,27 @@
     }
     html{ scroll-behavior:smooth; }
     body{ background:linear-gradient(to bottom,#ffffff,#fff1f5,#ffffff); color:var(--fg); }
-    .card{ border:1px solid var(--border); border-radius:1rem; background:#fff; box-shadow:0 1px 0 rgba(0,0,0,0.02); }
-    .card-header{ padding:1rem 1.25rem; border-bottom:1px solid var(--border); }
+    .card{
+      border:1px solid var(--border);
+      border-radius:1rem;
+      background:#fff;
+      box-shadow:0 1px 0 rgba(0,0,0,0.02);
+    }
+    .card-header{ padding:0.9rem 1rem; border-bottom:1px solid var(--border); }
     .card-title{ font-weight:600; }
-    .card-description{ color:var(--muted-fg); font-size:.875rem; margin-top:.25rem; }
-    .card-content{ padding:1rem 1.25rem; }
-    .card-footer{ padding:1rem 1.25rem; border-top:1px solid var(--border); }
-    .badge{ display:inline-flex; align-items:center; gap:.25rem; border-radius:.5rem; padding:.25rem .5rem; border:1px solid #fbcfe8; background:#ffe4ed; color:#9d174d; font-size:.75rem; }
-    .btn{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; border-radius:.75rem; padding:.5rem .9rem; font-weight:500; border:1px solid transparent; }
+    .card-description{ color:var(--muted-fg); font-size:.82rem; margin-top:.25rem; }
+    .card-content{ padding:0.85rem 1rem; }
+    .card-footer{ padding:0.7rem 1rem 1rem; border-top:1px solid var(--border); }
+    /* tighter cards for project tiles so they don’t look bigger than content */
+    .card--tight .card-header{ padding:0.75rem 0.85rem 0.7rem; }
+    .card--tight .card-content{ padding:0.6rem 0.85rem 0.5rem; }
+    .card--tight .card-footer{ padding:0.6rem 0.85rem 0.7rem; }
+
+    .badge{
+      display:inline-flex; align-items:center; gap:.25rem; border-radius:.5rem;
+      padding:.25rem .5rem; border:1px solid #fbcfe8; background:#ffe4ed; color:#9d174d; font-size:.73rem;
+    }
+    .btn{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; border-radius:.75rem; padding:.45rem .85rem; font-weight:500; border:1px solid transparent; font-size:.83rem; }
     .btn-primary{ background:#ec4899; color:white; }
     .btn-primary:hover{ background:#db2777; }
     .btn-outline{ border-color:#fbcfe8; color:#be185d; }
@@ -56,11 +69,43 @@
     }
     .input, .textarea, select{ border:1px solid var(--border); border-radius:.5rem; padding:.5rem .75rem; width:100%; background:#fff; }
     .textarea{ min-height:8rem; }
-    pre{ background:var(--muted); border:1px solid var(--border); border-radius:.75rem; padding:1rem; overflow:auto; }
-    code{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:.85rem; }
+
+    /* make space on the right so the button doesn't cover code */
+    pre{
+      background:var(--muted);
+      border:1px solid var(--border);
+      border-radius:.75rem;
+      padding:0.65rem 0.75rem;
+      padding-right:2.7rem;        /* reserve space for copy btn */
+      overflow:auto;
+      font-size:.74rem;
+      line-height:1.4;
+      max-height:140px;
+    }
+    /* code snippets in project cards */
+    .project-snippet{ position:relative; }
+    .project-snippet pre{
+      overflow-x:auto;
+      white-space:pre;
+    }
+    /* the copy button itself */
+    .copy-btn{
+      position:absolute;
+      top:0.35rem;
+      right:0.35rem;
+      z-index:10;
+      background:#ffffff;
+      border:1px solid rgba(236,72,153,0.35);
+      box-shadow:0 4px 12px rgba(15, 23, 42, 0.05);
+    }
+
+    code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:.8rem;
+    }
     .tab-trigger[aria-selected="true"]{ border-bottom:2px solid #ec4899; color:#be185d; }
     .hover-img:hover img{ transform:scale(1.05); }
-    .toast{ position:fixed; inset-inline:0; bottom:24px; display:grid; place-items:center; pointer-events:none; }
+    .toast{ position:fixed; inset-inline:0; bottom:24px; display:grid; place-items:center; pointer-events:none; z-index:9999; }
     .toast>div{ pointer-events:auto; background:#111827; color:#fff; border-radius:.75rem; padding:.5rem .75rem; box-shadow:0 10px 20px rgba(0,0,0,.2); font-size:.875rem; }
     @media (prefers-reduced-motion: reduce){
       *{ animation:none !important; transition:none !important; }
@@ -138,7 +183,7 @@
           </div>
         </div>
 
-        <!-- Three tech images (kept) -->
+        <!-- Three tech images -->
         <div class="mt-12 grid gap-4 md:grid-cols-3" aria-label="Technology imagery">
           <div class="group relative overflow-hidden rounded-2xl shadow-sm border hover-img">
             <img loading="lazy" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1200&auto=format&fit=crop" alt="Server racks" class="h-56 w-full object-cover transition-transform duration-500" />
@@ -172,29 +217,57 @@
       </div>
       <h2 id="about-title" class="text-3xl md:text-4xl font-semibold tracking-tight mb-6">Builder of dependable platforms</h2>
       <div class="grid gap-6 md:grid-cols-3">
+        <!-- UPDATED WHAT I DO -->
         <article class="card md:col-span-2">
           <div class="card-header">
-            <div class="card-title flex items-center gap-2"><i data-lucide="code" class="w-5 h-5" aria-hidden="true"></i> What I do</div>
+            <div class="card-title flex items-center gap-2">
+              <i data-lucide="code" class="w-5 h-5" aria-hidden="true"></i> What I do
+            </div>
             <div class="card-description">From control-plane services to AI-augmented integration workflows.</div>
           </div>
           <div class="card-content space-y-4 text-sm leading-7">
             <p>
-              I specialise in backend engineering with C# and Python, building modular services with clean contracts and strong observability. On the AI side, I prototype agentic flows (tool-use, planning, retries) to automate repetitive steps in data migration and reconciliation.
+              I specialise in both <strong>front-end and back-end engineering</strong> — I like making the UI look clean, responsive, and accessible, but I also care a lot about what happens behind the scenes. On the back-end side I work with <strong>C# and Python</strong> to build modular services with clean contracts, proper validation, and observability. On the front-end side I’m comfortable with <strong>HTML, CSS, and modern JavaScript</strong>, building responsive pages and admin-style dashboards that talk to REST APIs.
             </p>
             <p>
-              I’m comfortable across AWS/Azure, Docker, REST/JSON, and event-driven patterns. I care about tests, docs, and small PRs.
+              I am currently studying <strong>Computer Science at Manchester Metropolitan University</strong> and I’m a prospective <strong>2026 graduate</strong>, so most of my work is aligned with real coursework briefs — data structures &amp; algorithms, web development, AI coursework, and networking. I try to build things the way industry would expect: <strong>small PRs, good commit messages, documented endpoints, and testable code.</strong> I also support other students as a lab demonstrator, so I explain concepts clearly and write code that other people can follow.
+            </p>
+            <p>
+              I’m comfortable across <strong>AWS/Azure, Docker, REST/JSON, and event-driven patterns</strong>, and I’ve also built uni-style projects that integrate with tools like <strong>Firebase</strong> for auth and storage. Recently I’ve been prototyping <strong>agentic / tool-using flows</strong> (plan → call tools → retry) to automate repetitive migration or reconciliation steps. I care about code that is <strong>secure, logged, and observable</strong> because I’ve done student-engagement and community roles where reliability actually mattered.
             </p>
           </div>
         </article>
+
+        <!-- Highlights -->
         <aside class="card">
           <div class="card-header">
             <div class="card-title">Highlights</div>
           </div>
           <div class="card-content text-sm space-y-3">
-            <div class="flex items-start gap-3"><i data-lucide="server" class="h-4 w-4 mt-0.5 text-pinky-600"></i><span>Shipped an MCP-style control-plane demo with health, rate-limit, and rollout toggles.</span></div>
-            <div class="flex items-start gap-3"><i data-lucide="boxes" class="h-4 w-4 mt-0.5 text-pinky-600"></i><span>Built connectors to external KYC/Tax systems with robust error contracts.</span></div>
-            <div class="flex items-start gap-3"><i data-lucide="database" class="h-4 w-4 mt-0.5 text-pinky-600"></i><span>Automated ETL checksums &amp; schema drift alerts in a migration pipeline.</span></div>
-            <div class="flex items-start gap-3"><i data-lucide="workflow" class="h-4 w-4 mt-0.5 text-pinky-600"></i><span>Prototyped an agentic flow for document classification &amp; routing.</span></div>
+            <div class="flex items-start gap-3">
+              <i data-lucide="monitor-play" class="h-4 w-4 mt-0.5 text-pinky-600"></i>
+              <span><strong>Lab Demonstrator (CS):</strong> Supported 1st–2nd year students in Computer Architecture &amp; Networks labs, troubleshooting code and explaining concepts.</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <i data-lucide="users" class="h-4 w-4 mt-0.5 text-pinky-600"></i>
+              <span><strong>Peer Guide (MMU):</strong> Outreach on Vygo &amp; email about attendance, timetables, and uni services — helped students stay engaged.</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <i data-lucide="panel-left-open" class="h-4 w-4 mt-0.5 text-pinky-600"></i>
+              <span><strong>Student Advisory Board:</strong> Gave student voice to Careers Service and fed into the new Business School careers space.</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <i data-lucide="phone-call" class="h-4 w-4 mt-0.5 text-pinky-600"></i>
+              <span><strong>Enrolment Helpline / Careers Calling:</strong> High-volume phone support using Cisco tools; signposted to uni services and HESA survey.</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <i data-lucide="database" class="h-4 w-4 mt-0.5 text-pinky-600"></i>
+              <span><strong>Database &amp; Alumni admin:</strong> Cleaned and updated Raiser’s Edge records, degree checks, GDPR-compliant data handling.</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <i data-lucide="hand-heart" class="h-4 w-4 mt-0.5 text-pinky-600"></i>
+              <span><strong>Community Grocer (HMHC):</strong> Ran weekly grocery days, coordinated volunteers, and supported people facing food insecurity.</span>
+            </div>
           </div>
         </aside>
       </div>
@@ -207,21 +280,21 @@
       </div>
       <h2 id="projects-title" class="text-3xl md:text-4xl font-semibold tracking-tight mb-6">Selected Projects</h2>
 
-      <div class="grid gap-6 md:grid-cols-3">
+      <div class="grid gap-5 md:grid-cols-3 sm:grid-cols-2">
         <!-- Bookshop website -->
-        <article class="card group overflow-hidden">
+        <article class="card card--tight group overflow-hidden flex flex-col">
           <div class="card-header">
             <div class="card-title flex items-center gap-2">
               <i data-lucide="image" class="w-5 h-5" aria-hidden="true"></i>Bookshop Website (Web Dev)
             </div>
             <div class="card-description">HTML • CSS • JS • Cart &amp; Checkout</div>
           </div>
-          <div class="card-content space-y-3 text-sm">
-            <p>Responsive catalogue with search/sort, cart persistence in <code>localStorage</code>, and a mock checkout flow. REST demo hits <code>/api/books</code> and <code>/api/cart</code>.</p>
-            <div class="relative">
+          <div class="card-content space-y-3 text-sm flex-1">
+            <p>Responsive catalogue with search/sort, cart persistence in <code>localStorage</code>, and a mock checkout flow.</p>
+            <div class="project-snippet">
 <pre><code>// Fetch books
 fetch('/api/books?search=algorithms').then(r=&gt;r.json())</code></pre>
-              <button class="btn btn-outline absolute top-2 right-2 text-xs" data-copy="// Fetch books
+              <button class="btn btn-outline copy-btn text-xs" data-copy="// Fetch books
 fetch('/api/books?search=algorithms').then(r=>r.json())" aria-label="Copy snippet">Copy</button>
             </div>
           </div>
@@ -234,19 +307,19 @@ fetch('/api/books?search=algorithms').then(r=>r.json())" aria-label="Copy snippe
         </article>
 
         <!-- DS&A -->
-        <article class="card group overflow-hidden">
+        <article class="card card--tight group overflow-hidden flex flex-col">
           <div class="card-header">
             <div class="card-title flex items-center gap-2">
               <i data-lucide="boxes" class="w-5 h-5" aria-hidden="true"></i>Amusement Park Queue System (C#)
             </div>
             <div class="card-description">Queues • Circular buffers • Complexity</div>
           </div>
-          <div class="card-content space-y-3 text-sm">
-            <p>Circular-buffer <code>GuestQueue</code> with <code>Enqueue</code>/<code>Dequeue</code>, <code>GetMostFunds()</code>, and first-<em>k</em> reversal. Optimised via modulo arithmetic.</p>
-            <div class="relative">
+          <div class="card-content space-y-3 text-sm flex-1">
+            <p>Circular-buffer <code>GuestQueue</code> with <code>Enqueue</code>/<code>Dequeue</code>, <code>GetMostFunds()</code>, and first-<em>k</em> reversal.</p>
+            <div class="project-snippet">
 <pre><code>// Pseudocode (C# style)
 while(count &lt; maxSize) { tail = (tail+1)%maxSize; }</code></pre>
-              <button class="btn btn-outline absolute top-2 right-2 text-xs" data-copy="// Pseudocode (C# style)
+              <button class="btn btn-outline copy-btn text-xs" data-copy="// Pseudocode (C# style)
 while(count < maxSize) { tail = (tail+1)%maxSize; }" aria-label="Copy snippet">Copy</button>
             </div>
           </div>
@@ -259,19 +332,19 @@ while(count < maxSize) { tail = (tail+1)%maxSize; }" aria-label="Copy snippet">C
         </article>
 
         <!-- AI Coursework -->
-        <article class="card group overflow-hidden">
+        <article class="card card--tight group overflow-hidden flex flex-col">
           <div class="card-header">
             <div class="card-title flex items-center gap-2">
               <i data-lucide="database" class="w-5 h-5" aria-hidden="true"></i>Pneumonia Diagnosis (AI Coursework)
             </div>
             <div class="card-description">Supervised learning • Clinical decision support</div>
           </div>
-          <div class="card-content space-y-3 text-sm">
+          <div class="card-content space-y-3 text-sm flex-1">
             <p>Train on measurement CSVs for rapid triage; evaluate a transition to raw-image classification.</p>
-            <div class="relative">
+            <div class="project-snippet">
 <pre><code># Python sketch
 from sklearn.ensemble import RandomForestClassifier</code></pre>
-              <button class="btn btn-outline absolute top-2 right-2 text-xs" data-copy="# Python sketch
+              <button class="btn btn-outline copy-btn text-xs" data-copy="# Python sketch
 from sklearn.ensemble import RandomForestClassifier" aria-label="Copy snippet">Copy</button>
             </div>
           </div>
@@ -282,20 +355,20 @@ from sklearn.ensemble import RandomForestClassifier" aria-label="Copy snippet">C
         </article>
 
         <!-- Odd One Out -->
-        <article class="card group overflow-hidden">
+        <article class="card card--tight group overflow-hidden flex flex-col">
           <div class="card-header">
             <div class="card-title flex items-center gap-2">
               <i data-lucide="gamepad-2" class="w-5 h-5" aria-hidden="true"></i>Odd One Out (Thematic Project)
             </div>
             <div class="card-description">HTML • CSS • JS • Firebase Auth/Firestore</div>
           </div>
-          <div class="card-content space-y-3 text-sm">
-            <p>Team-built browser game: pick the “odd” card under timed rounds. Firebase stores users, high scores, and session stats. Responsive UI and keyboard controls for accessibility.</p>
-            <div class="relative">
+          <div class="card-content space-y-3 text-sm flex-1">
+            <p>Team-built browser game: pick the “odd” card under timed rounds. Firebase stores users, high scores, and session stats.</p>
+            <div class="project-snippet">
 <pre><code>// Save score (Firebase)
 import { addDoc, collection } from "firebase/firestore";
 await addDoc(collection(db, "scores"), { uid, score, ts: Date.now() });</code></pre>
-              <button class="btn btn-outline absolute top-2 right-2 text-xs" data-copy='// Save score (Firebase)
+              <button class="btn btn-outline copy-btn text-xs" data-copy='// Save score (Firebase)
 import { addDoc, collection } from "firebase/firestore";
 await addDoc(collection(db, "scores"), { uid, score, ts: Date.now() });' aria-label="Copy snippet">Copy</button>
             </div>
@@ -309,20 +382,20 @@ await addDoc(collection(db, "scores"), { uid, score, ts: Date.now() });' aria-la
         </article>
 
         <!-- Password Generator -->
-        <article class="card group overflow-hidden">
+        <article class="card card--tight group overflow-hidden flex flex-col">
           <div class="card-header">
             <div class="card-title flex items-center gap-2">
               <i data-lucide="key-round" class="w-5 h-5" aria-hidden="true"></i>Password Generator (Team Project)
             </div>
             <div class="card-description">Full-stack • HTML • CSS • JS</div>
           </div>
-          <div class="card-content space-y-3 text-sm">
-            <p>Secure password generator with strength meter, copy-to-clipboard, and optional server-side logging for analytics. Input validations and entropy hints guide non-technical users.</p>
-            <div class="relative">
+          <div class="card-content space-y-3 text-sm flex-1">
+            <p>Secure password generator with strength meter, copy-to-clipboard, and optional server-side logging.</p>
+            <div class="project-snippet">
 <pre><code>// Generate password
-const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
-const rand = (n)=>Array.from(crypto.getRandomValues(new Uint32Array(n)), x=>chars[x%chars.length]).join("");</code></pre>
-              <button class="btn btn-outline absolute top-2 right-2 text-xs" data-copy='// Generate password
+const chars="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+const rand=(n)=>Array.from(crypto.getRandomValues(new Uint32Array(n)),x=>chars[x%chars.length]).join("");</code></pre>
+              <button class="btn btn-outline copy-btn text-xs" data-copy='// Generate password
 const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
 const rand = (n)=>Array.from(crypto.getRandomValues(new Uint32Array(n)), x=>chars[x%chars.length]).join("");' aria-label="Copy snippet">Copy</button>
             </div>
@@ -334,27 +407,27 @@ const rand = (n)=>Array.from(crypto.getRandomValues(new Uint32Array(n)), x=>char
         </article>
 
         <!-- Durham ISC Extended Project -->
-        <article class="card group overflow-hidden">
+        <article class="card card--tight group overflow-hidden flex flex-col">
           <div class="card-header">
             <div class="card-title flex items-center gap-2">
               <i data-lucide="search" class="w-5 h-5" aria-hidden="true"></i>Extended Project: Binary vs Linear Search
             </div>
             <div class="card-description">Durham University ISC • Algorithms</div>
           </div>
-          <div class="card-content space-y-3 text-sm">
-            <p>Analysed time/space trade-offs on random lists; demonstrated O(<em>log n</em>) vs O(<em>n</em>) behaviour with empirical timings and plotted break-even points across input sizes.</p>
-            <div class="relative">
+          <div class="card-content space-y-3 text-sm flex-1">
+            <p>Analysed time/space trade-offs on random lists; demonstrated O(<em>log n</em>) vs O(<em>n</em>) behaviour.</p>
+            <div class="project-snippet">
 <pre><code>// Binary search (JS)
-function bsearch(a, x){
+function bsearch(a,x){
   let lo=0, hi=a.length-1;
-  while(lo<=hi){
+  while(lo&lt;=hi){
     const mid=(lo+hi)&gt;&gt;1;
     if(a[mid]===x) return mid;
     if(a[mid]&lt;x) lo=mid+1; else hi=mid-1;
   }
   return -1;
 }</code></pre>
-              <button class="btn btn-outline absolute top-2 right-2 text-xs" data-copy='// Binary search (JS)
+              <button class="btn btn-outline copy-btn text-xs" data-copy='// Binary search (JS)
 function bsearch(a, x){
   let lo=0, hi=a.length-1;
   while(lo<=hi){
@@ -513,9 +586,9 @@ function bsearch(a, x){
 }</code></pre>
               </div>
               <div class="pt-3 hidden" id="tab-curl" role="tabpanel" aria-labelledby="cURL">
-                <div class="relative">
+                <div class="relative project-snippet">
                   <pre><code id="rc-curl"></code></pre>
-                  <button class="btn btn-outline absolute top-2 right-2 text-xs" id="copy-curl" aria-label="Copy cURL">Copy</button>
+                  <button class="btn btn-outline copy-btn text-xs" id="copy-curl" aria-label="Copy cURL">Copy</button>
                 </div>
               </div>
               <div class="pt-3 hidden text-sm leading-7" id="tab-docs" role="tabpanel" aria-labelledby="Docs">
@@ -547,14 +620,14 @@ function bsearch(a, x){
             </ul>
             <hr class="border-t"/>
             <p class="font-medium">Client example (C# HttpClient):</p>
-            <div class="relative">
+            <div class="relative project-snippet">
 <pre><code>// C# (HttpClient)
 var client = new HttpClient();
 client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 var res = await client.GetAsync("https://api.example.com/tasks");
 res.EnsureSuccessStatusCode();
 var json = await res.Content.ReadAsStringAsync();</code></pre>
-              <button class="btn btn-outline absolute top-2 right-2 text-xs" data-copy='// C# (HttpClient)
+              <button class="btn btn-outline copy-btn text-xs" data-copy='// C# (HttpClient)
 var client = new HttpClient();
 client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 var res = await client.GetAsync("https://api.example.com/tasks");
@@ -562,13 +635,13 @@ res.EnsureSuccessStatusCode();
 var json = await res.Content.ReadAsStringAsync();' aria-label="Copy snippet">Copy</button>
             </div>
             <p class="font-medium">Client example (Python requests):</p>
-            <div class="relative">
+            <div class="relative project-snippet">
 <pre><code>import requests
 headers = {"Authorization": f"Bearer {token}"}
 r = requests.post("https://api.example.com/tasks", json={"title": "Migrate batch #42"}, headers=headers)
 r.raise_for_status()
 print(r.json())</code></pre>
-              <button class="btn btn-outline absolute top-2 right-2 text-xs" data-copy='import requests
+              <button class="btn btn-outline copy-btn text-xs" data-copy='import requests
 headers = {"Authorization": f"Bearer {token}"}
 r = requests.post("https://api.example.com/tasks", json={"title": "Migrate batch #42"}, headers=headers)
 r.raise_for_status()
@@ -709,8 +782,9 @@ print(r.json())' aria-label="Copy snippet">Copy</button>
       }
     }
 
-    // Wire [data-copy]
+    // Wire [data-copy] (also makes sure any future buttons get the class)
     document.querySelectorAll('[data-copy]').forEach(btn => {
+      btn.classList.add('copy-btn');
       btn.addEventListener('click', async () => {
         const text = btn.getAttribute('data-copy') || '';
         const res = await safeCopy(text);
@@ -873,7 +947,6 @@ print(r.json())' aria-label="Copy snippet">Copy</button>
       {
         name: 'safeCopy fallback path attempt',
         run: async () => {
-          // Try to simulate non-secure context safely; if not possible, just assert API shape.
           let outcome;
           try{
             const desc = Object.getOwnPropertyDescriptor(window, 'isSecureContext');
@@ -882,10 +955,10 @@ print(r.json())' aria-label="Copy snippet">Copy</button>
               outcome = await safeCopy('x');
               Object.defineProperty(window, 'isSecureContext', desc);
             } else {
-              outcome = await safeCopy('x'); // best-effort
+              outcome = await safeCopy('x');
             }
           }catch(_){
-            outcome = await safeCopy('x'); // fallback
+            outcome = await safeCopy('x');
           }
           if(typeof outcome.ok !== 'boolean') throw new Error('safeCopy should return ok boolean');
         },
