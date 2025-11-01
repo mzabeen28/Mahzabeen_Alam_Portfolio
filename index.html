@@ -12,7 +12,16 @@
       theme: {
         extend: {
           colors: {
-            pinky: { 50:'#fff1f5',100:'#ffe4ed',200:'#fecddc',300:'#fba4c0',400:'#f472b6',500:'#ec4899',600:'#db2777',700:'#be185d' }
+            pinky: {
+              50:'#fff1f5',
+              100:'#ffe4ed',
+              200:'#fecddc',
+              300:'#fba4c0',
+              400:'#f472b6',
+              500:'#ec4899',
+              600:'#db2777',
+              700:'#be185d'
+            }
           },
           keyframes: {
             floatOnce: { '0%':{transform:'translateY(-16px)',opacity:'0'}, '100%':{transform:'translateY(0)',opacity:'1'} },
@@ -30,14 +39,36 @@
   </script>
   <!-- Lucide icons -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
-  <!-- Preload your portrait for faster first paint -->
   <link rel="preload" as="image" href="./mahzabeen.png" />
   <style>
     :root{
       --bg:#ffffff; --muted:#f6f7f9; --border:#e5e7eb; --fg:#0f172a; --muted-fg:#64748b; --ring:#f472b6;
     }
-    html{ scroll-behavior:smooth; }
-    body{ background:linear-gradient(to bottom,#ffffff,#fff1f5,#ffffff); color:var(--fg); }
+    html, body{
+      scroll-behavior:smooth;
+      overflow-x:hidden;
+    }
+    body{
+      background:linear-gradient(to bottom,#ffffff,#fff1f5,#ffffff);
+      color:var(--fg);
+      /* fixed header offset */
+      padding-top:3.5rem;
+    }
+
+    /* global: stop weird sideways scroll */
+    section{ overflow-x:clip; }
+
+    /* 🛠️ BUT: REST section must be allowed to overflow horizontally for code */
+    #rest{
+      overflow-x:visible !important;
+    }
+    #rest .card{
+      overflow:visible;
+    }
+    #rest .card-content{
+      overflow:visible;
+    }
+
     .card{
       border:1px solid var(--border);
       border-radius:1rem;
@@ -49,7 +80,7 @@
     .card-description{ color:var(--muted-fg); font-size:.82rem; margin-top:.25rem; }
     .card-content{ padding:0.85rem 1rem; }
     .card-footer{ padding:0.7rem 1rem 1rem; border-top:1px solid var(--border); }
-    /* tighter cards for project tiles so they don’t look bigger than content */
+
     .card--tight .card-header{ padding:0.75rem 0.85rem 0.7rem; }
     .card--tight .card-content{ padding:0.6rem 0.85rem 0.5rem; }
     .card--tight .card-footer{ padding:0.6rem 0.85rem 0.7rem; }
@@ -58,37 +89,43 @@
       display:inline-flex; align-items:center; gap:.25rem; border-radius:.5rem;
       padding:.25rem .5rem; border:1px solid #fbcfe8; background:#ffe4ed; color:#9d174d; font-size:.73rem;
     }
-    .btn{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; border-radius:.75rem; padding:.45rem .85rem; font-weight:500; border:1px solid transparent; font-size:.83rem; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+      border-radius:.75rem; padding:.45rem .85rem; font-weight:500; border:1px solid transparent; font-size:.83rem;
+    }
     .btn-primary{ background:#ec4899; color:white; }
     .btn-primary:hover{ background:#db2777; }
     .btn-outline{ border-color:#fbcfe8; color:#be185d; }
     .btn-outline:hover{ background:#fff1f5; }
     .btn-ghost{ background:transparent; color:inherit; border:none; }
+
     .btn:focus-visible, a:focus-visible, .tab-trigger:focus-visible{
       outline:2px solid var(--ring); outline-offset:2px; border-radius:.5rem;
     }
-    .input, .textarea, select{ border:1px solid var(--border); border-radius:.5rem; padding:.5rem .75rem; width:100%; background:#fff; }
+
+    .input, .textarea, select{
+      border:1px solid var(--border); border-radius:.5rem; padding:.5rem .75rem; width:100%; background:#fff;
+    }
     .textarea{ min-height:8rem; }
 
-    /* make space on the right so the button doesn't cover code */
+    /* code blocks (default desktop) */
     pre{
       background:var(--muted);
       border:1px solid var(--border);
       border-radius:.75rem;
       padding:0.65rem 0.75rem;
-      padding-right:2.7rem;        /* reserve space for copy btn */
+      padding-right:2.7rem;
       overflow:auto;
       font-size:.74rem;
       line-height:1.4;
       max-height:140px;
     }
-    /* code snippets in project cards */
+
     .project-snippet{ position:relative; }
     .project-snippet pre{
       overflow-x:auto;
       white-space:pre;
     }
-    /* the copy button itself */
     .copy-btn{
       position:absolute;
       top:0.35rem;
@@ -97,6 +134,7 @@
       background:#ffffff;
       border:1px solid rgba(236,72,153,0.35);
       box-shadow:0 4px 12px rgba(15, 23, 42, 0.05);
+      white-space:nowrap;
     }
 
     code{
@@ -107,6 +145,79 @@
     .hover-img:hover img{ transform:scale(1.05); }
     .toast{ position:fixed; inset-inline:0; bottom:24px; display:grid; place-items:center; pointer-events:none; z-index:9999; }
     .toast>div{ pointer-events:auto; background:#111827; color:#fff; border-radius:.75rem; padding:.5rem .75rem; box-shadow:0 10px 20px rgba(0,0,0,.2); font-size:.875rem; }
+
+    .img-card{ overflow:hidden; }
+
+    /* shared nav link class */
+    .nav-link {
+      border-radius: 0.5rem;
+      transition: background 0.15s ease-out, transform 0.15s ease-out;
+    }
+    .nav-link:hover,
+    .nav-link:active,
+    .nav-link.nav-touched {
+      background: rgba(244, 114, 182, 0.12);
+      transform: translateY(-1px);
+    }
+
+    /* REST section mobile fixes - layout */
+    #rest .card-content { overflow-x: visible; }
+
+    #rest [role="tablist"] {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @media (max-width: 1024px) {
+      #rest .grid {
+        display: grid;
+        grid-template-columns: 1fr !important;
+      }
+      #rest .card {
+        overflow: visible;
+      }
+      #rest .card-content {
+        max-height: none;
+      }
+    }
+
+    /* 🔑 FINAL mobile fix for cut text */
+    @media (max-width: 768px){
+      #rest pre {
+        max-height: none;
+        white-space: pre-wrap;     /* wrap long lines */
+        word-break: break-word;    /* break very long tokens */
+        overflow-wrap: anywhere;
+        max-width: 100%;
+      }
+      #rest .card-content {
+        overflow: visible;
+      }
+    }
+
+    /* mobile nav panel animation */
+    .mobile-nav-enter{ transform:translateY(-6px); opacity:0; }
+    .mobile-nav-enter-active{ transform:translateY(0); opacity:1; transition:.15s ease-out; }
+
+    /* always visible header */
+    header.fixed-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+    }
+
+    #mobile-menu a:hover,
+    #mobile-menu a:active {
+      background: rgba(244, 114, 182, 0.12);
+    }
+
+    .project-snippet pre { position: relative; z-index: 1; }
+    .project-snippet .copy-btn { z-index: 2; }
+
     @media (prefers-reduced-motion: reduce){
       *{ animation:none !important; transition:none !important; }
     }
@@ -116,60 +227,75 @@
   <noscript><div class="bg-yellow-50 text-yellow-800 px-4 py-3 text-sm text-center">This site works best with JavaScript enabled.</div></noscript>
 
   <!-- Top Nav -->
-  <header class="sticky top-0 z-50 backdrop-blur border-b bg-white/70" role="banner">
-  <nav class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between" aria-label="Primary">
-    <div class="flex items-center gap-2">
-      <i data-lucide="rocket" class="w-5 h-5 text-pinky-500" aria-hidden="true"></i>
-      <span class="font-semibold">Mahzabeen Alam</span>
+  <header class="fixed-header border-b" role="banner">
+    <nav class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between" aria-label="Primary">
+      <div class="flex items-center gap-2">
+        <i data-lucide="rocket" class="w-5 h-5 text-pinky-500" aria-hidden="true"></i>
+        <span class="font-semibold">Mahzabeen Alam</span>
+      </div>
+
+      <!-- desktop links -->
+      <div class="hidden md:flex items-center gap-2 text-sm">
+        <a href="#about" class="nav-link px-2 py-1">About</a>
+        <a href="#projects" class="nav-link px-2 py-1">Projects</a>
+        <a href="#education" class="nav-link px-2 py-1">Education</a>
+        <a href="#experience" class="nav-link px-2 py-1">Experience</a>
+        <a href="#skills" class="nav-link px-2 py-1">Skills</a>
+        <a href="#contact" class="nav-link px-2 py-1">Contact</a>
+      </div>
+
+      <!-- RIGHT BUTTONS -->
+      <div class="hidden sm:flex items-center gap-2">
+        <a class="btn btn-ghost nav-link" aria-label="LinkedIn (opens in new tab)" href="https://www.linkedin.com/in/mzabeen28/" target="_blank" rel="noopener noreferrer">
+          <i data-lucide="linkedin" class="w-4 h-4" aria-hidden="true"></i>
+        </a>
+        <a class="btn btn-ghost nav-link" aria-label="GitHub (opens in new tab)" href="https://github.com/mzabeen28" target="_blank" rel="noopener noreferrer">
+          <i data-lucide="github" class="w-4 h-4" aria-hidden="true"></i>
+        </a>
+        <a
+          class="hidden sm:inline-flex btn btn-outline nav-link"
+          href="https://github.com/mzabeen28/ADS2425PortfolioAssignment"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub Portfolio
+        </a>
+        <a class="hidden sm:inline-flex btn btn-primary nav-link" href="./Mahzabeen_Alam_CV.pdf" target="_blank" rel="noopener noreferrer">
+          <i data-lucide="file-text" class="w-4 h-4 text-white" aria-hidden="true"></i>
+          CV / Resume
+        </a>
+      </div>
+
+      <!-- mobile toggle -->
+      <button id="mobile-toggle" class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-slate-600 hover:bg-slate-100" aria-label="Open navigation">
+        <i data-lucide="menu" class="w-5 h-5" aria-hidden="true"></i>
+      </button>
+    </nav>
+
+    <!-- mobile menu -->
+    <div id="mobile-menu" class="md:hidden hidden bg-white/95 border-b">
+      <div class="mx-auto max-w-6xl px-4 py-4 space-y-2">
+        <a href="#about" class="block py-2 px-2 rounded-md nav-link">About</a>
+        <a href="#projects" class="block py-2 px-2 rounded-md nav-link">Projects</a>
+        <a href="#education" class="block py-2 px-2 rounded-md nav-link">Education</a>
+        <a href="#experience" class="block py-2 px-2 rounded-md nav-link">Experience</a>
+        <a href="#skills" class="block py-2 px-2 rounded-md nav-link">Skills</a>
+        <a href="#contact" class="block py-2 px-2 rounded-md nav-link">Contact</a>
+        <div class="flex gap-2 pt-2">
+          <a class="btn btn-outline flex-1 justify-center nav-link" href="https://github.com/mzabeen28/ADS2425PortfolioAssignment" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="btn btn-primary flex-1 justify-center nav-link" href="./Mahzabeen_Alam_CV.pdf" target="_blank" rel="noopener noreferrer">CV</a>
+        </div>
+      </div>
     </div>
-    <div class="hidden md:flex items-center gap-6 text-sm">
-      <a href="#about" class="hover:underline">About</a>
-      <a href="#projects" class="hover:underline">Projects</a>
-      <a href="#education" class="hover:underline">Education</a>
-      <a href="#experience" class="hover:underline">Experience</a>
-      <a href="#skills" class="hover:underline">Skills</a>
-      <a href="#contact" class="hover:underline">Contact</a>
-    </div>
+  </header>
 
-    <!-- RIGHT BUTTONS -->
-    <div class="flex items-center gap-2">
-      <a class="btn btn-ghost" aria-label="LinkedIn (opens in new tab)" href="https://www.linkedin.com/in/mzabeen28/" target="_blank" rel="noopener noreferrer">
-        <i data-lucide="linkedin" class="w-4 h-4" aria-hidden="true"></i>
-      </a>
-      <a class="btn btn-ghost" aria-label="GitHub (opens in new tab)" href="https://github.com/mzabeen28" target="_blank" rel="noopener noreferrer">
-        <i data-lucide="github" class="w-4 h-4" aria-hidden="true"></i>
-      </a>
-
-      <!-- 1) GitHub Portfolio -->
-      <a
-        class="hidden sm:inline-flex btn btn-outline"
-        href="https://github.com/mzabeen28/ADS2425PortfolioAssignment"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        GitHub Portfolio
-      </a>
-
-      <!-- 2) Hire Me -->
-      <a href="#contact" class="hidden sm:inline-flex btn btn-outline">Hire Me</a>
-
-      <!-- 3) CV / Resume (VIEW ONLY) -->
-      <a class="hidden sm:inline-flex btn btn-primary" href="./Mahzabeen_Alam_CV.pdf" target="_blank" rel="noopener noreferrer">
-        <i data-lucide="file-text" class="w-4 h-4 text-white" aria-hidden="true"></i>
-        CV / Resume
-      </a>
-    </div>
-  </nav>
-</header>
-
-  <!-- HERO with Portrait (no cropping) -->
+  <!-- HERO -->
   <main id="main" class="contents">
     <section aria-labelledby="hero-title" class="relative overflow-hidden">
       <div class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-64 w-[80vw] rounded-full bg-pinky-300/20 blur-3xl" aria-hidden="true"></div>
 
       <div class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-8 md:pt-10">
         <div class="grid items-center gap-10 md:grid-cols-5">
-          <!-- Portrait -->
           <div class="md:col-span-2">
             <div class="relative animate-floatOnce">
               <div class="relative overflow-hidden rounded-2xl border shadow-sm bg-white">
@@ -186,58 +312,52 @@
             </div>
           </div>
 
-          <!-- Intro text -->
           <div class="md:col-span-3">
             <p class="text-xs tracking-widest uppercase text-slate-500 mb-3">Computer Science Final Year Undergrad</p>
             <h1 id="hero-title" class="text-3xl md:text-4xl font-semibold tracking-tight mb-4 text-pinky-700 animate-fadeUpOnce">Mahzabeen Alam</h1>
             <p class="text-lg text-slate-600 mb-6">
               A final-year Computer Science student at Manchester Metropolitan University, graduating in 2026.
-Specialises in front-end and back-end development, crafting clean and efficient digital solutions.
-Interested in AI systems, RESTful APIs, and platform engineering.
-Passionate about transforming ideas into impactful and user-friendly applications.
-Currently seeking industry placement opportunities to apply and grow technical expertise.
+              Specialises in front-end and back-end development, crafting clean and efficient digital solutions.
+              Interested in AI systems, RESTful APIs, and platform engineering.
+              Passionate about transforming ideas into impactful and user-friendly applications.
+              Currently seeking industry placement opportunities to apply and grow technical expertise.
             </p>
             <div class="flex flex-wrap gap-2 mb-6">
               <span class="badge"><i data-lucide="cloud" class="w-3 h-3" aria-hidden="true"></i> AWS &amp; Azure</span>
               <span class="badge"><i data-lucide="server" class="w-3 h-3" aria-hidden="true"></i> C# • Python</span>
               <span class="badge"><i data-lucide="shield-check" class="w-3 h-3" aria-hidden="true"></i> Secure APIs</span>
               <span class="badge"><i data-lucide="workflow" class="w-3 h-3" aria-hidden="true"></i> Agentic Flows</span>
-              <!-- NEW: data / fintech context badge -->
               <span class="badge"><i data-lucide="bar-chart-3" class="w-3 h-3" aria-hidden="true"></i> Data &amp; Fintech dashboards</span>
             </div>
-            <div class="flex gap-3">
-              <a href="#projects" class="btn btn-primary">View Projects</a>
-              <a href="#rest" class="btn btn-outline">REST Showcase</a>
-              <!-- NEW: CV button also in hero (VIEW ONLY) -->
-              <a href="./Mahzabeen_Alam_CV.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline hidden md:inline-flex">
-                CV
-              </a>
+            <div class="flex flex-wrap gap-3">
+              <a href="#projects" class="btn btn-primary nav-link">View Projects</a>
+              <a href="#rest" class="btn btn-outline nav-link">REST Showcase</a>
+              <a href="./Mahzabeen_Alam_CV.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline hidden md:inline-flex nav-link">CV</a>
             </div>
           </div>
         </div>
 
-        <!-- Three tech images -->
         <div class="mt-12 grid gap-4 md:grid-cols-3" aria-label="Technology imagery">
-          <div class="group relative overflow-hidden rounded-2xl shadow-sm border hover-img">
+          <div class="group relative overflow-hidden rounded-2xl shadow-sm border hover-img img-card">
             <img loading="lazy" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1200&auto=format&fit=crop" alt="Server racks" class="h-56 w-full object-cover transition-transform duration-500" />
             <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-white/90 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
               <p class="text-sm text-slate-800">MCP server modules with observability &amp; circuit breakers</p>
             </div>
-            <div class="pointer-events-none absolute -inset-10 rounded-[36px] bg-pinky-300/20 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
+            <div class="pointer-events-none absolute -inset-8 md:-inset-10 rounded-[36px] bg-pinky-300/20 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
           </div>
-          <div class="group relative overflow-hidden rounded-2xl shadow-sm border hover-img">
+          <div class="group relative overflow-hidden rounded-2xl shadow-sm border hover-img img-card">
             <img loading="lazy" src="https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?q=80&w=1200&auto=format&fit=crop" alt="Laptop and code pipeline" class="h-56 w-full object-cover transition-transform duration-500" />
             <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-white/90 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
               <p class="text-sm text-slate-800">ETL &amp; data migration pipelines</p>
             </div>
-            <div class="pointer-events-none absolute -inset-10 rounded-[36px] bg-pinky-300/20 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
+            <div class="pointer-events-none absolute -inset-8 md:-inset-10 rounded-[36px] bg-pinky-300/20 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
           </div>
-          <div class="group relative overflow-hidden rounded-2xl shadow-sm border hover-img">
+          <div class="group relative overflow-hidden rounded-2xl shadow-sm border hover-img img-card">
             <img loading="lazy" src="https://plus.unsplash.com/premium_photo-1683120968693-9af51578770e?ixlib=rb-4.1.0&auto=format&fit=crop&q=60&w=800" alt="Abstract AI art" class="h-56 w-full object-cover transition-transform duration-500" />
             <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-white/90 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
               <p class="text-sm text-slate-800">LLMs &amp; agentic orchestration</p>
             </div>
-            <div class="pointer-events-none absolute -inset-10 rounded-[36px] bg-pinky-300/20 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
+            <div class="pointer-events-none absolute -inset-8 md:-inset-10 rounded-[36px] bg-pinky-300/20 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
           </div>
         </div>
       </div>
@@ -250,7 +370,6 @@ Currently seeking industry placement opportunities to apply and grow technical e
       </div>
       <h2 id="about-title" class="text-3xl md:text-4xl font-semibold tracking-tight mb-6">Builder of dependable platforms</h2>
       <div class="grid gap-6 md:grid-cols-3">
-        <!-- UPDATED WHAT I DO -->
         <article class="card md:col-span-2">
           <div class="card-header">
             <div class="card-title flex items-center gap-2">
@@ -268,14 +387,12 @@ Currently seeking industry placement opportunities to apply and grow technical e
             <p>
               I’m comfortable across <strong>AWS/Azure, Docker, REST/JSON, and event-driven patterns</strong>, and I’ve also built uni-style projects that integrate with tools like <strong>Firebase</strong> for auth and storage. Recently I’ve been prototyping <strong>agentic / tool-using flows</strong> (plan → call tools → retry) to automate repetitive migration or reconciliation steps. I care about code that is <strong>secure, logged, and observable</strong> because I’ve done student-engagement and community roles where reliability actually mattered.
             </p>
-            <!-- NEW PARAGRAPH: cloud + data engineering + AI/predictive + fintech context -->
             <p>
               To support more <strong>data-heavy and fintech-style platforms</strong>, I’ve also been working with patterns like <strong>ETL for structured and semi-structured data</strong>, API-based ingestion of public/financial sources, and surfacing those into <strong>reporting / visualisation dashboards</strong> (React + charts) so that decision makers can see fresh data. This sits nicely with my AI interests — I can plug in <strong>Python/scikit-learn</strong> style predictive models or LLM-based enrichment on top of the collected data, which is the same direction that investment and venture-capital platforms are going towards.
             </p>
           </div>
         </article>
 
-        <!-- Highlights -->
         <aside class="card">
           <div class="card-header">
             <div class="card-title">Highlights</div>
@@ -318,7 +435,6 @@ Currently seeking industry placement opportunities to apply and grow technical e
       <h2 id="projects-title" class="text-3xl md:text-4xl font-semibold tracking-tight mb-6">Selected Projects</h2>
 
       <div class="grid gap-5 md:grid-cols-3 sm:grid-cols-2">
-        <!-- Bookshop website -->
         <article class="card card--tight group overflow-hidden flex flex-col">
           <div class="card-header">
             <div class="card-title flex items-center gap-2">
@@ -343,7 +459,6 @@ fetch('/api/books?search=algorithms').then(r=>r.json())" aria-label="Copy snippe
           <div class="h-1 bg-pinky-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" aria-hidden="true"></div>
         </article>
 
-        <!-- DS&A -->
         <article class="card card--tight group overflow-hidden flex flex-col">
           <div class="card-header">
             <div class="card-title flex items-center gap-2">
@@ -368,7 +483,6 @@ while(count < maxSize) { tail = (tail+1)%maxSize; }" aria-label="Copy snippet">C
           <div class="h-1 bg-pinky-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" aria-hidden="true"></div>
         </article>
 
-        <!-- AI Coursework -->
         <article class="card card--tight group overflow-hidden flex flex-col">
           <div class="card-header">
             <div class="card-title flex items-center gap-2">
@@ -391,7 +505,6 @@ from sklearn.ensemble import RandomForestClassifier" aria-label="Copy snippet">C
           <div class="h-1 bg-pinky-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" aria-hidden="true"></div>
         </article>
 
-        <!-- Odd One Out -->
         <article class="card card--tight group overflow-hidden flex flex-col">
           <div class="card-header">
             <div class="card-title flex items-center gap-2">
@@ -418,7 +531,6 @@ await addDoc(collection(db, "scores"), { uid, score, ts: Date.now() });' aria-la
           <div class="h-1 bg-pinky-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" aria-hidden="true"></div>
         </article>
 
-        <!-- Password Generator -->
         <article class="card card--tight group overflow-hidden flex flex-col">
           <div class="card-header">
             <div class="card-title flex items-center gap-2">
@@ -443,7 +555,6 @@ const rand = (n)=>Array.from(crypto.getRandomValues(new Uint32Array(n)), x=>char
           <div class="h-1 bg-pinky-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" aria-hidden="true"></div>
         </article>
 
-        <!-- Durham ISC Extended Project -->
         <article class="card card--tight group overflow-hidden flex flex-col">
           <div class="card-header">
             <div class="card-title flex items-center gap-2">
@@ -482,7 +593,6 @@ function bsearch(a, x){
           <div class="h-1 bg-pinky-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" aria-hidden="true"></div>
         </article>
 
-        <!-- NEW: Financial / Cloud / Data Viz project (for KTP relevance) -->
         <article class="card card--tight group overflow-hidden flex flex-col">
           <div class="card-header">
             <div class="card-title flex items-center gap-2">
@@ -603,18 +713,24 @@ df = pd.DataFrame(raw).assign(source="public")' aria-label="Copy snippet">Copy</
       </div>
     </section>
 
-    <!-- REST API Showcase -->
+    <!-- REST API Showcase (FIXED) -->
     <section id="rest" class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16" aria-labelledby="rest-title">
       <div class="mb-10">
         <p class="text-xs tracking-widest uppercase text-slate-500">REST</p>
       </div>
-      <h2 id="rest-title" class="text-3xl md:text-4xl font-semibold tracking-tight mb-6">Production-grade REST: design, docs, and testing</h2>
+      <h2 id="rest-title" class="text-3xl md:text-4xl font-semibold tracking-tight mb-6">
+        Production-grade REST: design, docs, and testing
+      </h2>
       <div class="grid gap-6 md:grid-cols-2">
-        <!-- REST Console -->
         <section class="card border" id="rest-console" aria-labelledby="rest-console-title">
           <div class="card-header">
-            <div id="rest-console-title" class="card-title flex items-center gap-2"><i data-lucide="server" class="w-5 h-5" aria-hidden="true"></i> Live REST API Showcase (Mocked)</div>
-            <div class="card-description">Demonstrates endpoint design, auth headers, and JSON request/response handling. (Works offline.)</div>
+            <div id="rest-console-title" class="card-title flex items-center gap-2">
+              <i data-lucide="server" class="w-5 h-5" aria-hidden="true"></i>
+              Live REST API Showcase (Mocked)
+            </div>
+            <div class="card-description">
+              Demonstrates endpoint design, auth headers, and JSON request/response handling. (Works offline.)
+            </div>
           </div>
           <div class="card-content space-y-4">
             <div class="grid gap-3 md:grid-cols-3">
@@ -634,29 +750,31 @@ df = pd.DataFrame(raw).assign(source="public")' aria-label="Copy snippet">Copy</
                 <span class="badge" aria-live="polite">Status: <span id="rc-status">—</span></span>
               </div>
             </div>
+
             <div id="rc-body-wrap" class="hidden">
               <label for="rc-body" class="sr-only">Request Body</label>
               <textarea id="rc-body" class="textarea font-mono text-xs" aria-label="Request JSON body">{ "title": "Backfill missing FATCA records" }</textarea>
             </div>
+
             <div>
-              <div role="tablist" aria-label="REST console tabs" class="flex gap-4 border-b">
+              <div role="tablist" aria-label="REST console tabs" class="flex gap-4 border-b pb-1">
                 <button class="py-2 tab-trigger" data-tab="response" aria-selected="true" role="tab" aria-controls="tab-response">Response</button>
                 <button class="py-2 tab-trigger" data-tab="curl" role="tab" aria-controls="tab-curl">cURL</button>
                 <button class="py-2 tab-trigger" data-tab="docs" role="tab" aria-controls="tab-docs">Docs</button>
               </div>
               <div class="pt-3" id="tab-response" role="tabpanel" aria-labelledby="Response">
-<pre id="rc-response" class="min-h-[120px]"><code>{
+                <pre id="rc-response" class="min-h-[120px] max-h-[260px] overflow-auto"><code>{
   "hint": "Hit Send Request to see the JSON response"
 }</code></pre>
               </div>
               <div class="pt-3 hidden" id="tab-curl" role="tabpanel" aria-labelledby="cURL">
                 <div class="relative project-snippet">
-                  <pre><code id="rc-curl"></code></pre>
+                  <pre class="max-h-[260px] overflow-auto"><code id="rc-curl"></code></pre>
                   <button class="btn btn-outline copy-btn text-xs" id="copy-curl" aria-label="Copy cURL">Copy</button>
                 </div>
               </div>
               <div class="pt-3 hidden text-sm leading-7" id="tab-docs" role="tabpanel" aria-labelledby="Docs">
-                <ul class="list-disc pl-5">
+                <ul class="list-disc pl-5 space-y-2">
                   <li><code>GET /api/tasks</code> → 200 OK, returns array of tasks.</li>
                   <li><code>POST /api/tasks</code> → 201 Created, body: <code>{ title: string }</code>.</li>
                   <li><code>PATCH /api/tasks/:id</code> → 200 OK, body: <code>{ title?: string, status?: string }</code>.</li>
@@ -668,7 +786,6 @@ df = pd.DataFrame(raw).assign(source="public")' aria-label="Copy snippet">Copy</
           </div>
         </section>
 
-        <!-- API Design card -->
         <aside class="card">
           <div class="card-header">
             <div class="card-title">API Design Principles</div>
@@ -685,7 +802,7 @@ df = pd.DataFrame(raw).assign(source="public")' aria-label="Copy snippet">Copy</
             <hr class="border-t"/>
             <p class="font-medium">Client example (C# HttpClient):</p>
             <div class="relative project-snippet">
-<pre><code>// C# (HttpClient)
+<pre class="max-h-[220px] overflow-auto"><code>// C# (HttpClient)
 var client = new HttpClient();
 client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 var res = await client.GetAsync("https://api.example.com/tasks");
@@ -700,7 +817,7 @@ var json = await res.Content.ReadAsStringAsync();' aria-label="Copy snippet">Cop
             </div>
             <p class="font-medium">Client example (Python requests):</p>
             <div class="relative project-snippet">
-<pre><code>import requests
+<pre class="max-h-[220px] overflow-auto"><code>import requests
 headers = {"Authorization": f"Bearer {token}"}
 r = requests.post("https://api.example.com/tasks", json={"title": "Migrate batch #42"}, headers=headers)
 r.raise_for_status()
@@ -792,9 +909,8 @@ print(r.json())' aria-label="Copy snippet">Copy</button>
     </section>
   </main>
 
-  <!-- Footer -->
   <footer class="border-t" role="contentinfo">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 text-sm text-slate-600 flex items-center justify-between">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 text-sm text-slate-600 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <p>© <span id="year"></span> Mahzabeen Alam. All rights reserved.</p>
       <div class="flex items-center gap-4">
         <a class="hover:underline" href="#">Privacy</a>
@@ -803,19 +919,35 @@ print(r.json())' aria-label="Copy snippet">Copy</button>
     </div>
   </footer>
 
-  <!-- Toast container -->
   <div class="toast" id="toast" style="display:none"><div id="toast-msg" role="status" aria-live="polite"></div></div>
 
   <script>
-    // Run after DOM is ready
     (function onReady(fn){ if(document.readyState !== 'loading') fn(); else document.addEventListener('DOMContentLoaded', fn); })(function(){
       if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
     });
 
-    // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Lightweight toast
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileToggle?.addEventListener('click', () => {
+      const isHidden = mobileMenu.classList.contains('hidden');
+      mobileMenu.classList.toggle('hidden', !isHidden);
+    });
+    mobileMenu?.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('touchstart', () => {
+        link.classList.add('nav-touched');
+        setTimeout(() => link.classList.remove('nav-touched'), 350);
+      }, { passive: true });
+    });
+
     function showToast(msg){
       const t = document.getElementById('toast');
       const m = document.getElementById('toast-msg');
@@ -825,7 +957,6 @@ print(r.json())' aria-label="Copy snippet">Copy</button>
       showToast._tid = setTimeout(()=>{ t.style.display='none'; }, 1600);
     }
 
-    // Robust clipboard helper
     async function safeCopy(text){
       try{
         if(window.isSecureContext && navigator.clipboard && typeof navigator.clipboard.writeText === 'function'){
@@ -846,7 +977,6 @@ print(r.json())' aria-label="Copy snippet">Copy</button>
       }
     }
 
-    // Wire [data-copy] (also makes sure any future buttons get the class)
     document.querySelectorAll('[data-copy]').forEach(btn => {
       btn.classList.add('copy-btn');
       btn.addEventListener('click', async () => {
@@ -856,7 +986,6 @@ print(r.json())' aria-label="Copy snippet">Copy</button>
       });
     });
 
-    // Tabs
     const tabButtons = document.querySelectorAll('.tab-trigger');
     tabButtons.forEach(btn => btn.addEventListener('click', () => {
       const name = btn.getAttribute('data-tab');
@@ -868,7 +997,6 @@ print(r.json())' aria-label="Copy snippet">Copy</button>
       });
     }));
 
-    // Mock REST layer
     const MOCK_DB = { tasks: [
       { id: 't-1001', title: 'Design MCP server module', status: 'in_progress' },
       { id: 't-1002', title: 'ETL pipeline for KYC data', status: 'queued' },
@@ -902,7 +1030,6 @@ print(r.json())' aria-label="Copy snippet">Copy</button>
       });
     }
 
-    // REST Console wiring
     const rcMethod = document.getElementById('rc-method');
     const rcUrl = document.getElementById('rc-url');
     const rcBody = document.getElementById('rc-body');
@@ -947,7 +1074,6 @@ print(r.json())' aria-label="Copy snippet">Copy</button>
 
     updateCurl();
 
-    // Tests
     const tests = [
       {
         name: 'GET /api/tasks returns initial list',
